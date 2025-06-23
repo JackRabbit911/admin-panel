@@ -1,2 +1,1 @@
-# admin-panel
-Admit panel SPA
+# Admin Panel SPA
