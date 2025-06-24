@@ -1,7 +1,7 @@
-import ajax from "./ajax";
+import ajax from "api/ajax";
 
+import type { LoginPayload, TryLoginResponse } from "store/login/types";
 import type { ApiResponse } from "./types";
-import type { LoginPayload, TryLoginResponse } from "../store/Login/types";
 
-export const apiTryLogin = async (payload: LoginPayload): ApiResponse<TryLoginResponse> =>
-  ajax.post('/auth/login', payload);
+export const apiTryLogin = (payload: LoginPayload): ApiResponse<TryLoginResponse> =>
+  ajax.post('/auth/login', payload)

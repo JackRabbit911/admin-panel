@@ -1,20 +1,16 @@
 import type { AxiosResponse } from "axios";
 
-type RequiredResponsePart = {
-  success: boolean;
-  error?: string;
-};
-
 export type ApiResponseNoResult = Promise<
-  AxiosResponse<
-    RequiredResponsePart
-  >
+  AxiosResponse<{
+    success: boolean;
+    error?: string;
+  }>
 >;
 
 export type ApiResponse<T> = Promise<
-  AxiosResponse<
-    RequiredResponsePart & {
-      result: T;
-    }
-  >
+  AxiosResponse<{
+    success: boolean;
+    error?: string;
+    result: T;
+  }>
 >;
