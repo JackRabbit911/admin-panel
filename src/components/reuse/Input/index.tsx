@@ -1,24 +1,29 @@
+import type { InputStatus } from "./types";
+import { inputStatus } from "./utils";
+
 type Props = {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  message: string;
-  className?: string;
-  disabled?: boolean;
+  status?: InputStatus | null;
   type?: string;
+  placeholder?: string;
+  disabled?: boolean;
 };
 
 const Input = ({
   label, value,
   setValue,
+  status = null,
   type = 'text',
-  className='input',
-  message = '',
+  placeholder = '',
   disabled = false
 }: Props) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement> | undefined) => {
     setValue(event?.target.value || '')
   }
+
+  const { className, message } = inputStatus (status)
 
   return (
     <div>
@@ -28,7 +33,8 @@ const Input = ({
         type={type}
         className={className}
         value={value}
-        disabled={disabled}       
+        placeholder={placeholder || label}
+        disabled={disabled || false}
       />
       {!message ? null : (
         <div className="text-error">

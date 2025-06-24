@@ -1,11 +1,10 @@
 import Drawer from "./components/Drawer"
+import Login from "./components/Login"
 
 function App() {
-  return (
-    <div className="mx-auto container">
-      <Drawer />
-    </div>
-  )
+  const user = null
+
+  return user ? <Drawer /> : <Login />
 }
 
 export default App
