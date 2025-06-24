@@ -1,3 +1,4 @@
+import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 
 const Drawer = () => {
@@ -5,6 +6,7 @@ const Drawer = () => {
     <div className="drawer lg:drawer-open">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
+        <Navbar />
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
