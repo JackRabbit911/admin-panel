@@ -8,7 +8,7 @@ export type CurrentUser = {
     name: string;
 };
 
-export type LoginValidationError = {
+export type LoginError = {
    email: {
     status: string;
     msg: string;
@@ -19,16 +19,9 @@ export type LoginValidationError = {
   };
 }
 
-export type LoginError = {
-  success: false;
-} & LoginValidationError
-
 export type LoginSuccess = {
-  Bearer: string;
-  Refresh: string;
+  bearer: string;
+  refresh: string;
   user: CurrentUser;
-  success: true;
 }
-
-export type TryLoginResponse = LoginError | LoginSuccess;
 
