@@ -13,7 +13,7 @@ const ajax = axios.create({
     }
 });
 
-const engageToken = (newBearer: string) => {
+export const engageToken = (newBearer: string) => {
     token = `Bearer ${newBearer}`
 }
 
