@@ -1,13 +1,14 @@
+import { useUnit } from "effector-react"
+import { $errorLogin, $loginPayload, emailChanged, passwordChanged, tryLoginClicked } from "store/login"
 import Input from "../reuse/Input"
 import LoginWrapper from "./LoginWrapper"
 
 const Login = () => {
-  const setEmail = (email: string) => {
-    
-  }
+  const { email, password } = useUnit($loginPayload)
+  const errorLogin = useUnit($errorLogin)
 
-  const setPassword = (password: string) => {
-    
+  const onClickLogin = () => {
+    tryLoginClicked()
   }
 
   return (
@@ -16,19 +17,20 @@ const Login = () => {
         <fieldset className="fieldset">
           <Input
             label="Email"
-            value=''
-            setValue={setEmail}
-            status={null}
+            value={email}
+            setValue={emailChanged}
+            status={errorLogin?.email}
           />
           <Input
             type="password"
             label="Password"
-            value=''
-            setValue={setPassword}
-            status={null}
+            value={password}
+            setValue={passwordChanged}
+            status={errorLogin?.password}
           />
           <button
             className="btn btn-primary mt-4"
+            onClick={onClickLogin}
           >
             Login
           </button>
