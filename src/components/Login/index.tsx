@@ -12,8 +12,6 @@ const Login = () => {
     tryLoginClicked()
   }
 
-  console.log(isValid(email, password), email)
-
   return (
     <LoginWrapper>
       <div className="card-body">
