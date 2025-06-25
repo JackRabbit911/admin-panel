@@ -2,6 +2,7 @@ import { useUnit } from "effector-react"
 import { $errorLogin, $loginPayload, emailChanged, passwordChanged, tryLoginClicked } from "store/login"
 import Input from "../reuse/Input"
 import LoginWrapper from "./LoginWrapper"
+import { isValid } from "./utils"
 
 const Login = () => {
   const { email, password } = useUnit($loginPayload)
@@ -10,6 +11,8 @@ const Login = () => {
   const onClickLogin = () => {
     tryLoginClicked()
   }
+
+  console.log(isValid(email, password), email)
 
   return (
     <LoginWrapper>
@@ -31,6 +34,7 @@ const Login = () => {
           <button
             className="btn btn-primary mt-4"
             onClick={onClickLogin}
+            disabled={!isValid(email, password)}
           >
             Login
           </button>
