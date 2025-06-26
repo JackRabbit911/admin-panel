@@ -1,11 +1,12 @@
+import { useUnit } from "effector-react"
+import Drawer from "./components/Drawer"
+import Login from "./components/Login"
+import { $currentUser } from "store/currentUser"
+
 function App() {
-  return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
-  )
+  const user = useUnit($currentUser)
+
+  return user ? <Drawer /> : <Login />
 }
 
 export default App
