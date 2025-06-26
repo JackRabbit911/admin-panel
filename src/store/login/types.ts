@@ -1,11 +1,8 @@
+import type { CurrentUser } from "store/currentUser/types";
+
 export type LoginPayload = {
     email: string;
     password: string;
-};
-
-export type CurrentUser = {
-    id: number;
-    name: string;
 };
 
 export type LoginError = {

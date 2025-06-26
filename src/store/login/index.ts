@@ -16,7 +16,7 @@ const logoutFx = createEffect(() => {
     window.localStorage.removeItem('Refresh')
 })
 
-export const $loginPayload = createStore<LoginPayload>({ email: 'aa@qq.qq', password: 'qaz' })
+export const $loginPayload = createStore<LoginPayload>({ email: '', password: '' })
     .on(emailChanged, (store, email) => ({ ...store, email: email }))
     .on(passwordChanged, (store, password) => ({ ...store, password: password }))
     .reset(logoutClicked)
@@ -49,4 +49,3 @@ sample({
     clock: logoutClicked,
     target: logoutFx,
 })
-

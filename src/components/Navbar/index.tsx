@@ -1,6 +1,7 @@
 import { $currentUser, logoutClicked } from "store/currentUser";
 import Sandwich from "./Sandwich";
 import { useUnit } from "effector-react";
+import { host } from "api/ajax";
 
 const Navbar = () => {
   const currentUser = useUnit($currentUser)
@@ -25,6 +26,11 @@ const Navbar = () => {
         <span className="text-sm">
           {currentUser?.name}
         </span>
+        <div className="avatar">
+          <div className="w-12 rounded ms-2">
+            <img src={`${host}${currentUser?.avatar}`} />
+          </div>
+        </div>
         <ul className="menu menu-horizontal px-1">
           <li>
             <a href="" onClick={onLogout}>
