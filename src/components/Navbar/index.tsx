@@ -1,8 +1,14 @@
-import { logoutClicked } from "store/currentUser";
+import { $currentUser, logoutClicked } from "store/currentUser";
 import Sandwich from "./Sandwich";
+import { useUnit } from "effector-react";
 
 const Navbar = () => {
-  const onLogout = () => { logoutClicked() }
+  const currentUser = useUnit($currentUser)
+
+  const onLogout = (event?: React.MouseEvent<HTMLAnchorElement>) => {
+    event?.preventDefault()
+    logoutClicked()
+  }
 
   return (
     <nav className="navbar bg-base-100 shadow-sm z-80">
@@ -16,6 +22,9 @@ const Navbar = () => {
         </label>
       </div>
       <div className="flex-none">
+        <span className="text-sm">
+          {currentUser?.name}
+        </span>
         <ul className="menu menu-horizontal px-1">
           <li>
             <a href="" onClick={onLogout}>

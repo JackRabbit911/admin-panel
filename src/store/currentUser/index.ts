@@ -7,4 +7,4 @@ export const logoutClicked = createEvent()
 
 export const $currentUser = createStore<CurrentUser | null>(null)
     .on(currentUserRecived, (_, { user }) => user)
-    .on(logoutClicked, () => null)
+    .reset(logoutClicked)

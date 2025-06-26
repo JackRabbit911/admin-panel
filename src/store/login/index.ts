@@ -9,19 +9,21 @@ export const passwordChanged = createEvent<string>()
 export const tryLoginClicked = createEvent()
 const errorRecived = createEvent<LoginError | undefined>()
 
-export const tryLoginFx = createEffect(apiTryLogin)
-export const logoutFx = createEffect(() => {
+const tryLoginFx = createEffect(apiTryLogin)
+const logoutFx = createEffect(() => {
     const token = window.localStorage.getItem('Refresh')
-    window.localStorage.removeItem('Refresh')
     apiLogOut(token)
+    window.localStorage.removeItem('Refresh')
 })
 
-export const $loginPayload = createStore<LoginPayload>({ email: '', password: '' })
+export const $loginPayload = createStore<LoginPayload>({ email: 'aa@qq.qq', password: 'qaz' })
     .on(emailChanged, (store, email) => ({ ...store, email: email }))
     .on(passwordChanged, (store, password) => ({ ...store, password: password }))
+    .reset(logoutClicked)
 
 export const $errorLogin = createStore<LoginError | null>(null)
     .on(errorRecived, (store, error) => !error ? store : ({ ...store, ...error }))
+    .reset([emailChanged, passwordChanged])
 
 sample({
     clock: tryLoginClicked,
