@@ -1,11 +1,12 @@
 import axios, { AxiosError } from "axios";
 
+export const host = 'http://localhost'
 const lang = document.querySelector('html')?.getAttribute('lang')
 
 let token = ''
 
 const ajax = axios.create({
-    baseURL: 'http://localhost/api',
+    baseURL: `${host}/api`,
     timeout: 1000,
     headers: {
         'Accept-Language': lang,
