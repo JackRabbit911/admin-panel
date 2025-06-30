@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
+import { VITE_API_URL } from "constants/env";
 
-export const host = 'http://localhost'
+export const host = VITE_API_URL
 const lang = document.querySelector('html')?.getAttribute('lang')
 
 let token = ''
