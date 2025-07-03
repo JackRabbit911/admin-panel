@@ -1,20 +1,19 @@
-import type { InputStatus } from "./types";
-import { inputStatus } from "./utils";
+import type { FormField } from "store/login/types";
+import { getClassName } from "./utils";
 
 type Props = {
   label: string;
-  value: string;
+  data: FormField,
   setValue: (value: string) => void;
-  status?: InputStatus | null;
   type?: string;
   placeholder?: string;
   disabled?: boolean;
 };
 
 const Input = ({
-  label, value,
+  label,
   setValue,
-  status = null,
+  data,
   type = 'text',
   placeholder = '',
   disabled = false
@@ -23,7 +22,8 @@ const Input = ({
     setValue(event?.target.value || '')
   }
 
-  const { className, message } = inputStatus (status)
+  const { status, value, message } = data
+  const [inputClassName, messageClassName] = getClassName(status)
 
   return (
     <div>
@@ -31,13 +31,13 @@ const Input = ({
       <input
         onChange={onChange}
         type={type}
-        className={className}
+        className={inputClassName}
         value={value}
         placeholder={placeholder || label}
         disabled={disabled || false}
       />
       {!message ? null : (
-        <div className="text-error">
+        <div className={messageClassName}>
           {message}
         </div>
       )}

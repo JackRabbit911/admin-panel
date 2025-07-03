@@ -1,27 +1,14 @@
-import type { InputStatus } from "./types";
+const className = 'input'
 
-export const inputStatus = (status?: InputStatus) => {
-    let className = 'input'
-    let message = ''
-
-    if (status) {
-        switch (status.status) {
-            case 'error':
-                className += ' input-error'
-                break
-            case 'warning':
-                className += ' input-warning'
-                break
-            case 'success':
-                className += ' input-success'
-                break
-        }
-
-        message = status.msg
-    }
-
-    return {
-        className: className,
-        message: message,
+export const getClassName = (status: string) => {
+    switch (status) {
+        case 'error':
+            return [className + ' input-error', 'text-error']
+        case 'warning':
+            return [className + ' input-warning', 'text-warning']
+        case 'success':
+            return [className + ' input-success', 'text-success']
+        default:
+            return [className, '']
     }
 }
