@@ -1,33 +1,35 @@
 import { createEffect, createEvent, createStore, sample } from "effector"
 import { apiLogOut, apiTryLogin } from "api/auth"
-import type { LoginError, LoginPayload } from "./types"
+import type { LoginFormData } from "./types"
 import { currentUserRecived, logoutClicked } from "store/currentUser"
 import { engageTokenFx } from "store/token"
+import { emptyLoginFormData, fieldChangedCallback } from "./utils"
+import { debug } from "patronum"
 
+export const fieldChanged = createEvent<{ name: string, value: string }>()
 export const emailChanged = createEvent<string>()
 export const passwordChanged = createEvent<string>()
 export const tryLoginClicked = createEvent()
-const errorRecived = createEvent<LoginError | undefined>()
+const errorRecived = createEvent<LoginFormData | undefined>()
 
 const tryLoginFx = createEffect(apiTryLogin)
-const logoutFx = createEffect(() => {
+const logoutFx = createEffect(async () => {
     const token = window.localStorage.getItem('Refresh')
-    apiLogOut(token)
+    await apiLogOut(token)
     window.localStorage.removeItem('Refresh')
 })
 
-export const $loginPayload = createStore<LoginPayload>({ email: '', password: '' })
-    .on(emailChanged, (store, email) => ({ ...store, email: email }))
-    .on(passwordChanged, (store, password) => ({ ...store, password: password }))
-    .reset(logoutClicked)
+export const $loginForm = createStore<LoginFormData>(emptyLoginFormData)
+    .on(emailChanged, fieldChangedCallback('email'))
+    .on(passwordChanged, fieldChangedCallback('password'))
+    .on(errorRecived, (_, data) => data)
+    // .reset(logoutClicked)
 
-export const $errorLogin = createStore<LoginError | null>(null)
-    .on(errorRecived, (store, error) => !error ? store : ({ ...store, ...error }))
-    .reset([emailChanged, passwordChanged])
+debug({$loginForm, emailChanged, passwordChanged, tryLoginClicked, tryLoginFx, logoutClicked})
 
 sample({
     clock: tryLoginClicked,
-    source: $loginPayload,
+    source: $loginForm,
     target: tryLoginFx,
 })
 
