@@ -3,7 +3,7 @@ import { apiLogOut, apiTryLogin } from "api/auth"
 import type { LoginFormData } from "./types"
 import { currentUserRecived, logoutClicked } from "store/currentUser"
 import { engageTokenFx } from "store/token"
-import { emptyLoginFormData, fieldChangedCallback } from "./utils"
+import { fieldChangedCallback, getInitial } from "./utils"
 import { debug } from "patronum"
 
 export const fieldChanged = createEvent<{ name: string, value: string }>()
@@ -19,11 +19,11 @@ const logoutFx = createEffect(async () => {
     window.localStorage.removeItem('Refresh')
 })
 
-export const $loginForm = createStore<LoginFormData>(emptyLoginFormData)
+export const $loginForm = createStore<LoginFormData>(getInitial())
     .on(emailChanged, fieldChangedCallback('email'))
     .on(passwordChanged, fieldChangedCallback('password'))
     .on(errorRecived, (_, data) => data)
-    // .reset(logoutClicked)
+    .on(tryLoginFx.doneData, () => getInitial())
 
 debug({$loginForm, emailChanged, passwordChanged, tryLoginClicked, tryLoginFx, logoutClicked})
 

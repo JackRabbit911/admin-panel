@@ -1,6 +1,6 @@
 import type { LoginFormData } from "./types";
 
-export const emptyLoginFormData: LoginFormData = {
+export const getInitial = (): LoginFormData => ({
     email: {
         status: '',
         value: '',
@@ -11,7 +11,7 @@ export const emptyLoginFormData: LoginFormData = {
         value: '',
         message: '',
     },
-}
+})
 
 export const fieldChangedCallback = (fieldName: keyof LoginFormData) =>
     (store: LoginFormData, value: string) => {
