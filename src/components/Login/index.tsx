@@ -1,39 +1,37 @@
 import { useForm, FormProvider } from "react-hook-form"
 import LoginWrapper from "./LoginWrapper"
 import TextFileld from "components/reuse/TextFileld"
+import { validation } from "./constants";
+import type { LoginForm } from "store/login/types";
+import { $loginError, tryLoginFx } from "store/login";
+import { useUnit } from "effector-react";
 import { useEffect } from "react";
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
+import { setFormErrors } from "components/reuse/TextFileld/utils";
 
 const Login = () => {
   const methods = useForm<LoginForm>({
     defaultValues: {
       email: '',
       password: '',
-    }
+    },
+    mode: "onChange",
   })
 
-  const { watch, formState, setError, clearErrors } = methods;
-  const { errors } = formState;
-  const isSubmitDisabled = Object.keys(errors).length > 0;
-  const { email } = watch();
+  const { formState } = methods;
+  const { isValid } = formState;
 
-  const onSubmit = (data: LoginForm) => console.log(data)
-  console.log('WATCH', email, errors);
+  const onSubmit = (data: LoginForm) => {
+    methods.clearErrors()
+    tryLoginFx(data)
+  }
+
+  const loginError = useUnit($loginError)
 
   useEffect(() => {
-    if(!email) {
-      setError('email', {
-        type: 'manual',
-        message: 'Email is required'
-      });
-    } else {
-      clearErrors('email');
-    }
-  },[email, setError, clearErrors]);
+    setFormErrors(loginError, methods)
+    console.log(loginError)
+
+  }, [loginError])
 
   return (
     <FormProvider {...methods}>
@@ -43,15 +41,17 @@ const Login = () => {
             <TextFileld
               name="email"
               label="Email"
+              rules={validation.email}
             />
             <TextFileld
               name="password"
               type="password"
               label="Password"
+              rules={validation.password}
             />
             <button
               type="submit"
-              disabled={isSubmitDisabled}
+              disabled={!isValid}
               className="btn btn-primary mt-4"
             >
               Login
