@@ -1,10 +1,8 @@
-import { createEffect, createEvent, createStore, sample } from "effector"
+import { createEffect, createStore, sample } from "effector"
 import { apiLogOut, apiTryLogin } from "api/auth"
 import { currentUserRecived, logoutClicked } from "store/currentUser"
 import { engageTokenFx } from "store/token"
 import type { LoginError } from "./types"
-
-export const errorRecived = createEvent<LoginError | undefined>()
 
 export const tryLoginFx = createEffect(apiTryLogin)
 export const logoutFx = createEffect(async () => {
@@ -14,7 +12,6 @@ export const logoutFx = createEffect(async () => {
 })
 
 export const $loginError = createStore<LoginError | undefined>(null)
-    .on(errorRecived, (_, data) => data)
     .reset(tryLoginFx, logoutClicked)
 
 sample({
@@ -28,7 +25,7 @@ sample({
     clock: tryLoginFx.doneData,
     filter: (response) => response.data.success === false && Boolean(response.data.error),
     fn: (response) => response.data.error,
-    target: errorRecived,
+    target: $loginError,
 })
 
 sample({

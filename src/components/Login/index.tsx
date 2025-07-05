@@ -19,12 +19,7 @@ const Login = () => {
 
   const { formState } = methods;
   const { isValid } = formState;
-
-  const onSubmit = (data: LoginForm) => {
-    methods.clearErrors()
-    tryLoginFx(data)
-  }
-
+  const onSubmit = (data: LoginForm) => tryLoginFx(data)
   const loginError = useUnit($loginError)
 
   useEffect(() => {
