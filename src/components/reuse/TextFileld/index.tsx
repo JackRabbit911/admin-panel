@@ -1,22 +1,29 @@
 import { useFormContext } from "react-hook-form"
+import { getClassName } from "./utils";
 
 type Props = {
   name: string;
   label: string;
   type?: string;
+  rules?: object;
 };
 
-const TextFileld = ({ name, label, type = 'text' }: Props) => {
+const TextFileld = ({ name, label, rules, type = 'text' }: Props) => {
   const { register, formState: { errors } } = useFormContext()
-  const message = errors[name]?.message as string || null;
+
+  const message = errors[name]?.message as string || '';
+  const [inputClassName, messageClassName] = getClassName(errors[name])
 
   return (
     <div>
       <label className="label">{label}</label>
-      <input className="input" {...register(name)} type={type} />
+      <input
+        className={inputClassName}
+        {...register(name, rules)}
+        type={type} />
 
-      {!message ? null : (
-        <div className="text-error">
+      {errors[name] && (
+        <div className={messageClassName}>
           {message}
       </div>
       )}
