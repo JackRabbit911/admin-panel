@@ -19,7 +19,7 @@ const Navbar = () => {
         <label
           htmlFor="my-drawer"
           aria-label="open sidebar"
-          className="btn btn-square btn-ghost lg:hidden"
+          className="btn btn-square btn-ghost md:hidden"
         >
           <Sandwich />
         </label>
