@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import { sideItems } from "./constants";
 import Submenu from "./Submenu";
 
@@ -7,9 +8,9 @@ const Sidebar = () => {
       {sideItems.map(
         (item, key) => !item?.sub ? (
           <li key={key}>
-            <a href={item.href}>
+            <NavLink to={item.href as string}>
               {item.title}
-            </a>
+            </NavLink>
           </li>
         ) : (
           <Submenu item={item} key={key} />
