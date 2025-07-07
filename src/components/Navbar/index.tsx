@@ -2,14 +2,12 @@ import { $currentUser, logoutClicked } from "store/currentUser";
 import Sandwich from "./Sandwich";
 import { useUnit } from "effector-react";
 import { host } from "api/ajax";
-import { $loginForm } from "store/login";
 
 const Navbar = () => {
   const currentUser = useUnit($currentUser)
 
   const onLogout = (event?: React.MouseEvent<HTMLAnchorElement>) => {
     event?.preventDefault()
-    $loginForm.reset()
     logoutClicked()
   }
 
@@ -19,7 +17,7 @@ const Navbar = () => {
         <label
           htmlFor="my-drawer"
           aria-label="open sidebar"
-          className="btn btn-square btn-ghost lg:hidden"
+          className="btn btn-square btn-ghost md:hidden"
         >
           <Sandwich />
         </label>

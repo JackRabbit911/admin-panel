@@ -12,8 +12,13 @@ export type FormField = {
   message: string;
 }
 
-export type LoginFormData = {
+export type LoginError = {
   email: FormField;
   password: FormField;
-}
+} | null;
+
+export type LoginForm = {
+  email: string;
+  password: string;
+};
 

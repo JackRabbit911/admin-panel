@@ -1,37 +1,18 @@
-import { createEffect, createEvent, createStore, sample } from "effector"
+import { createEffect, createStore, sample } from "effector"
 import { apiLogOut, apiTryLogin } from "api/auth"
-import type { LoginFormData } from "./types"
 import { currentUserRecived, logoutClicked } from "store/currentUser"
 import { engageTokenFx } from "store/token"
-import { fieldChangedCallback, getInitial } from "./utils"
-import { debug } from "patronum"
+import type { LoginError } from "./types"
 
-export const fieldChanged = createEvent<{ name: string, value: string }>()
-export const emailChanged = createEvent<string>()
-export const passwordChanged = createEvent<string>()
-export const tryLoginClicked = createEvent()
-const errorRecived = createEvent<LoginFormData | undefined>()
-
-const tryLoginFx = createEffect(apiTryLogin)
-const logoutFx = createEffect(async () => {
+export const tryLoginFx = createEffect(apiTryLogin)
+export const logoutFx = createEffect(async () => {
     const token = window.localStorage.getItem('Refresh')
     await apiLogOut(token)
     window.localStorage.removeItem('Refresh')
 })
 
-export const $loginForm = createStore<LoginFormData>(getInitial())
-    .on(emailChanged, fieldChangedCallback('email'))
-    .on(passwordChanged, fieldChangedCallback('password'))
-    .on(errorRecived, (_, data) => data)
-    .on(tryLoginFx.doneData, () => getInitial())
-
-debug({$loginForm, emailChanged, passwordChanged, tryLoginClicked, tryLoginFx, logoutClicked})
-
-sample({
-    clock: tryLoginClicked,
-    source: $loginForm,
-    target: tryLoginFx,
-})
+export const $loginError = createStore<LoginError | undefined>(null)
+    .reset(tryLoginFx, logoutClicked)
 
 sample({
     clock: tryLoginFx.doneData,
@@ -44,7 +25,7 @@ sample({
     clock: tryLoginFx.doneData,
     filter: (response) => response.data.success === false && Boolean(response.data.error),
     fn: (response) => response.data.error,
-    target: errorRecived,
+    target: $loginError,
 })
 
 sample({
