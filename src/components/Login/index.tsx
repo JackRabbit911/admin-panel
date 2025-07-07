@@ -1,41 +1,60 @@
-import { useUnit } from "effector-react"
-import { $loginForm, emailChanged, passwordChanged, tryLoginClicked } from "store/login"
-import Input from "../reuse/Input"
+import { useForm, FormProvider } from "react-hook-form"
 import LoginWrapper from "./LoginWrapper"
-import { isValid } from "./utils"
+import TextFileld from "components/reuse/TextFileld"
+import { validation } from "./constants";
+import type { LoginForm } from "store/login/types";
+import { $loginError, tryLoginFx } from "store/login";
+import { useUnit } from "effector-react";
+import { useEffect } from "react";
+import { setFormErrors } from "components/reuse/TextFileld/utils";
 
 const Login = () => {
-  const loginForm = useUnit($loginForm)
+  const methods = useForm<LoginForm>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: "onChange",
+  })
 
-  const onClickLogin = () => {
-    tryLoginClicked()
-  }
+  const { formState } = methods;
+  const { isValid } = formState;
+  const onSubmit = (data: LoginForm) => tryLoginFx(data)
+  const loginError = useUnit($loginError)
+
+  useEffect(() => {
+    setFormErrors(loginError, methods)
+    console.log(loginError)
+
+  }, [loginError])
 
   return (
-    <LoginWrapper>
-      <div className="card-body">
-        <fieldset className="fieldset">
-          <Input
-            label="Email"
-            data={loginForm.email}
-            setValue={emailChanged}
-          />
-          <Input
-            type="password"
-            label="Password"
-            data={loginForm.password}
-            setValue={passwordChanged}
-          />
-          <button
-            className="btn btn-primary mt-4"
-            onClick={onClickLogin}
-            disabled={!isValid(loginForm)}
-          >
-            Login
-          </button>
-        </fieldset>
-      </div>
-    </LoginWrapper>
+    <FormProvider {...methods}>
+      <LoginWrapper>
+        <form className="card-body" onSubmit={methods.handleSubmit(onSubmit)}>
+          <fieldset className="fieldset">
+            <TextFileld
+              name="email"
+              label="Email"
+              rules={validation.email}
+            />
+            <TextFileld
+              name="password"
+              type="password"
+              label="Password"
+              rules={validation.password}
+            />
+            <button
+              type="submit"
+              disabled={!isValid}
+              className="btn btn-primary mt-4"
+            >
+              Login
+            </button>
+          </fieldset>
+        </form>
+      </LoginWrapper>
+    </FormProvider>
   )
 }
 
