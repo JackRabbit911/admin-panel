@@ -11,17 +11,19 @@ const Users = () => {
   return (
     <>
       <h1>Users</h1>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Имя</th>
-          </tr>
-        </thead>
-        <tbody>
-          <List />
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Имя</th>
+            </tr>
+          </thead>
+          <tbody>
+            <List />
+          </tbody>
+        </table>
+      </div>
     </>
   )
 }
