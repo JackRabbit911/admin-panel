@@ -5,6 +5,11 @@ const List = () => useList($usersList, ({ name }, index) => (
   <tr>
     <td>{index + 1}</td>
     <td>{name}</td>
+    <th>
+      <button className="btn btn-ghost btn-xs">
+        details
+      </button>
+    </th>
   </tr>
 ))
 
