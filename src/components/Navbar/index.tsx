@@ -12,34 +12,36 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="navbar bg-base-100 shadow-sm z-80">
-      <div className="flex-1">
-        <label
-          htmlFor="my-drawer"
-          aria-label="open sidebar"
-          className="btn btn-square btn-ghost md:hidden"
-        >
-          <Sandwich />
-        </label>
-      </div>
-      <div className="flex-none">
-        <span className="text-sm">
-          {currentUser?.name}
-        </span>
-        <div className="avatar">
-          <div className="w-12 rounded ms-2">
-            <img src={`${host}${currentUser?.avatar}`} />
-          </div>
+    <div className="glass sticky top-0 z-40">
+      <nav className="navbar shadow-sm z-80">
+        <div className="flex-1">
+          <label
+            htmlFor="my-drawer"
+            aria-label="open sidebar"
+            className="btn btn-square btn-ghost md:hidden"
+          >
+            <Sandwich />
+          </label>
         </div>
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <a href="" onClick={onLogout}>
-              Выход
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <div className="flex-none">
+          <span className="text-sm">
+            {currentUser?.name}
+          </span>
+          <div className="avatar">
+            <div className="w-12 rounded ms-2">
+              <img src={`${host}${currentUser?.avatar}`} />
+            </div>
+          </div>
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <a href="" onClick={onLogout}>
+                Выход
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
   );
 };
 
