@@ -34,16 +34,8 @@ ajax.interceptors.response.use( async (response) => {
         if (response.headers['x-refresh']) {
             window.localStorage.setItem('Refresh', response.headers['x-refresh'])
         } else {
-            const {method, url, data, headers} = response.config
-            const refresh = window.localStorage.getItem('Refresh')
-            token = `Refresh ${refresh}`
-
-            const refreshResponse = await ajax({
-                method,
-                url,
-                data,
-                headers,
-            })
+            token = `Refresh ${window.localStorage.getItem('Refresh')}`
+            const refreshResponse = await ajax(response.config)
 
             return refreshResponse
         }

@@ -1,17 +1,18 @@
 import { useEffect } from "react"
-import { getUsersFx } from "store/users"
+import { fetchUsersFirst } from "store/users"
 import List from "./List"
 import Header from "./Header"
+import Pagination from "./Pagination"
 
 const Users = () => {
-
   useEffect(() => {
-    getUsersFx()
+    fetchUsersFirst()
   }, [])
 
   return (
     <>
       <Header />
+      <Pagination />
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -26,6 +27,7 @@ const Users = () => {
           </tbody>
         </table>
       </div>
+      <Pagination />
     </>
   )
 }
