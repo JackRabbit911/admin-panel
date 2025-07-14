@@ -12,3 +12,9 @@ export type UsersPagination = {
   pageNumber: number;
   perPage: number;
 }
+
+export type UsersFilter = {
+  name: string;
+}
+
+export type UsersPayload = UsersPagination | UsersFilter;
