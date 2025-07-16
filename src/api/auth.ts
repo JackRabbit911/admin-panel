@@ -3,8 +3,8 @@ import ajax from "api/ajax";
 import type { LoginError, LoginForm, LoginSuccess } from "store/login/types";
 import type { ApiResponse } from "./types";
 
-export const apiTryLogin = (payload: LoginForm): ApiResponse<LoginSuccess, LoginError> =>
-    ajax.post('/auth/login', {
+export const apiTryLogin = (payload: LoginForm) =>
+    ajax.post<ApiResponse<LoginSuccess, LoginError>>('/auth/login', {
         email: payload.email,
         password: payload.password,
     })
