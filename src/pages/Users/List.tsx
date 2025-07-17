@@ -1,14 +1,15 @@
 import { useList } from "effector-react";
+import { Link } from "react-router";
 import { $usersList } from "store/users";
 
-const List = () => useList($usersList, ({ name }, index) => (
+const List = () => useList($usersList, ({ id, name }) => (
   <tr>
-    <td>{index + 1}</td>
+    <td>{id}</td>
     <td>{name}</td>
     <th>
-      <button className="btn btn-ghost btn-xs">
+      <Link className="btn btn-ghost btn-xs" to={`/users/${id}`}>
         details
-      </button>
+      </Link>
     </th>
   </tr>
 ))

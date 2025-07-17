@@ -1,6 +1,7 @@
 import ajax from "api/ajax"
 import { combine, createEffect, createEvent, createStore, sample } from "effector"
 import type { UsersFilter, UsersInfo, UsersPagination, UsersPayload } from "./types"
+import type { ApiResponse } from "api/types"
 
 export const fetchUsersFirst = createEvent()
 export const usersPageNumberChanged = createEvent<number>()
@@ -10,11 +11,11 @@ export const usersFilterReset = createEvent()
 
 const getUsersFx = createEffect(
     async (payload?: UsersPayload) => {
-        const response = await ajax.get<UsersInfo>('/adm/users', {
+        const response = await ajax.get<ApiResponse<UsersInfo>>('/adm/users', {
             params: payload,
         })
 
-        return response.data
+        return response.data.result
     }
 )
 

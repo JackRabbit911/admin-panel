@@ -16,15 +16,15 @@ export const $loginError = createStore<LoginError | undefined>(null)
 
 sample({
     clock: tryLoginFx.doneData,
-    filter: (response) => response.data.success === true,
-    fn: (response) => response.data.result,
+    filter: (response) => response?.data?.success === true,
+    fn: (response) => response?.data?.result,
     target: [currentUserRecived, engageTokenFx],
 })
 
 sample({
     clock: tryLoginFx.doneData,
-    filter: (response) => response.data.success === false && Boolean(response.data.error),
-    fn: (response) => response.data.error,
+    filter: (response) => response?.data?.success === false && Boolean(response.data.error),
+    fn: (response) => response?.data?.error,
     target: $loginError,
 })
 
