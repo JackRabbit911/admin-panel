@@ -1,10 +1,10 @@
 import Auth from "./Auth"
-import Layout from "./Layout"
+import AdminPanel from "./AdminPanel"
 
 function App() {
   const user = null
 
-  return user ? <Layout /> : <Auth />
+  return user ? <AdminPanel /> : <Auth />
 }
 
 export default App
