@@ -4,7 +4,7 @@ import { NavLink } from "react-router"
 import Sidebar from "../Sidebar"
 import Router from "./Router"
 
-const Layout = () => {
+const AdminPanel = () => {
   const [isShown, setIsShown] = useState(false)
 
   const onClose = () => {
@@ -45,4 +45,4 @@ const Layout = () => {
   )
 }
 
-export default Layout
+export default AdminPanel
