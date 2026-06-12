@@ -1,9 +1,10 @@
+import Auth from "./Auth"
 import Layout from "./Layout"
 
 function App() {
-  return (
-    <Layout />
-  )
+  const user = null
+
+  return user ? <Layout /> : <Auth />
 }
 
 export default App
