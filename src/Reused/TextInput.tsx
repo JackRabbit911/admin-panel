@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { getObjectProp } from "../shared/utils";
+import { useTranslate } from "../shared/i18n/hooks";
 
 type Props = {
   fieldName: string;
@@ -16,6 +17,11 @@ const TextInput = ({
 }: Props) => {
   const { register, formState: { errors } } = useFormContext();
   const err = getObjectProp(errors, fieldName)
+  const __ = useTranslate()
+
+  if (errors[fieldName]) {
+    errors[fieldName].message = __(errors[fieldName].message as string)
+  }
 
   const inputClassName =
     err ?
@@ -32,9 +38,9 @@ const TextInput = ({
   return (
     <fieldset className="fieldset">
       <legend className="fieldset-legend flex justify-between w-full">
-        {label}
+        {__(label)}
         {alert}
-        <span className="fieldset-label">{optional}</span>
+        <span className="fieldset-label">{__(optional)}</span>
       </legend>
       <input
         type={type}
