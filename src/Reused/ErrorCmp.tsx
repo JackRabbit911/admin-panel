@@ -28,7 +28,7 @@ const getReasonPhrase = (status: number | string | undefined) => {
 
 const ErrorCmp = ({ status }: Props) => {
   return (
-    <div className="h-96 flex flex-col justify-center">
+    <div className="flex flex-col justify-center min-h-[84vh]">
       <h1 className="text-center text-3xl">
         {getReasonPhrase(status)}
       </h1>
