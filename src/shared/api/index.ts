@@ -1,9 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { ajaxBaseQuery } from './baseQuery';
+import { axiosBaseQuery } from './baseQuery';
 
 export const api = createApi({
     reducerPath: 'api',
-    baseQuery: ajaxBaseQuery(),
+    baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
         auth: builder.mutation({
             query: (authData) => ({
