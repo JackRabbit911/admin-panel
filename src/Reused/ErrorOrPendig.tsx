@@ -1,13 +1,11 @@
-import type { SerializedError } from "@reduxjs/toolkit";
-import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
 import Loading from "./Loading";
 import ErrorCmp from "./ErrorCmp";
+import type { ServerError } from "../shared/types";
 
 type ResponseStatus = {
   isLoading: boolean;
   isError: boolean;
-  error: FetchBaseQueryError | SerializedError | undefined;
+  err: ServerError;
 }
 
 type Props = {
@@ -17,12 +15,12 @@ type Props = {
 
 const ErrorOrPending = ({ responseStatus, children }: Props) => {  
   if (responseStatus) {
-    const { isLoading, isError, error } = responseStatus
-    const status = (error && 'status' in error) ? error.status : 0
+    const { isLoading, isError, err } = responseStatus
+    const status = (err && 'status' in err) ? err.status : 0
 
     return (
       <>
-        {isLoading ? <Loading /> : (isError ? <ErrorCmp status={status} /> : children)}
+        {isLoading ? <Loading /> : (isError && status !== 422 ? <ErrorCmp status={status} /> : children)}
       </>
     )
   }
