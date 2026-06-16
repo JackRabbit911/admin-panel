@@ -1,40 +1,24 @@
-import { type AxiosRequestConfig, AxiosError } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react';
 
 import ajax from './ajax';
 
-export const ajaxBaseQuery = (): BaseQueryFn<
+export const axiosBaseQuery =
+  (): BaseQueryFn<
     {
       url: string;
       method: AxiosRequestConfig['method'];
       data?: AxiosRequestConfig['data'];
       params?: AxiosRequestConfig['params'];
-    },
-    unknown,
-    unknown
+    }
   > =>
-  async ({ url, method, data, params }) => {
-    try {
-      const result = await ajax({ url, method, data, params }) //axios({ url: baseUrl + url, method, data, params });
-      return { data: result.data };
-    } catch (axiosError) {
-      const err = axiosError as AxiosError;
-      
-      // Перехват ошибки 422
-      if (err.response && err.response.status === 422) {
+    async ({ url, method, data, params }) => {
+      try {
+        const result = await ajax({ url, method, data, params });
+        return { data: result.data };
+      } catch (axiosError) {
         return {
-          error: {
-            status: 422,
-            data: err.response.data, // Здесь содержатся ошибки валидации от сервера
-          },
+          error: axiosError, // Здесь будет объект с ошибками, выброшенный из interceptor
         };
       }
-
-      return {
-        error: {
-          status: err.response?.status || 500,
-          data: err.response?.data || err.message,
-        },
-      };
-    }
-  };
+    };
