@@ -7,12 +7,12 @@ export const axiosBaseQuery =
   (): BaseQueryFn<
     {
       url: string;
-      method: AxiosRequestConfig['method'];
+      method?: AxiosRequestConfig['method'];
       data?: AxiosRequestConfig['data'];
       params?: AxiosRequestConfig['params'];
     }
   > =>
-    async ({ url, method, data, params }) => {
+    async ({ url, method = 'GET', data, params }) => {
       try {
         const result = await ajax({ url, method, data, params });
         return { data: result.data };
