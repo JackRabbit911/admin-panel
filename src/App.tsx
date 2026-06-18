@@ -7,11 +7,11 @@ import TranslateProvider from "./shared/i18n/TranslateProvider"
 
 function App() {
   const location = useLocation()
-  const username = useAppSelector((state) => state.username.name)
+  const user = useAppSelector((state) => state.auth.user)
 
   return (
     <TranslateProvider deps={[location]}>
-      {username ? <AdminPanel /> : <Auth />}
+      {user ? <AdminPanel /> : <Auth />}
     </TranslateProvider>
   )
 }
