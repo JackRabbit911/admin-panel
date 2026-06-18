@@ -1,8 +1,16 @@
 import Sandwich from "./Sandwich";
+import { host } from "../shared/api/ajax";
+import { logout } from "../shared/store/authSlice";
+import { useTranslate } from "../shared/i18n/hooks";
+import { useAppDispatch, useAppSelector } from "../shared/store/hooks";
 
 const Navbar = () => {
-  const onLogout = (event?: React.MouseEvent<HTMLAnchorElement>) => {
-    event?.preventDefault()
+  const user = useAppSelector((state) => state.auth.user)
+  const dispatch = useAppDispatch()
+  const __ = useTranslate()
+
+  const onLogout = () => {
+    dispatch(logout())
   }
 
   return (
@@ -19,18 +27,18 @@ const Navbar = () => {
         </div>
         <div className="flex-none">
           <span className="text-sm">
-            Алексей Зайцев
+            {user?.name}
           </span>
           <div className="avatar">
             <div className="w-12 rounded ms-2">
-              <img src="public/1.webp" />
+              <img src={`${host}/ava/user/${user?.id}`} />
             </div>
           </div>
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a href="" onClick={onLogout}>
-                Выход
-              </a>
+              <button className="btn btn-ghost" onClick={onLogout}>
+                {__('Log Out')}
+              </button>
             </li>
           </ul>
         </div>
