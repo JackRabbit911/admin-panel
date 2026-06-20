@@ -1,10 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-
-type User = {
-    id?: number;
-    name?: string;
-    role?: number;
-}
+import type { User } from '../types';
 
 type UserState = {
     user: User | null;
