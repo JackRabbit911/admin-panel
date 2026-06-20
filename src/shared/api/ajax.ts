@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { getToken } from "./utils";
 
 const { protocol, hostname } = window.location
 export const host = `${protocol}//${hostname}`
@@ -9,19 +10,19 @@ let token = ''
 
 const ajax = axios.create({
     baseURL: `${host}/api/adm`,
-    timeout: 1000,
+    timeout: 5000,
     headers: {
         'Accept-Language': lang,
         'Content-Type': 'application/json',
     }
 });
 
-export const engageToken = (newBearer: string) => {
-    token = `Bearer ${newBearer}`
-}
-
 ajax.interceptors.request.use((config) => {
-    config.headers.Authorization = token
+    token = getToken()
+
+    if (token) {
+        config.headers.Authorization = token
+    }
 
     return config
 })
@@ -29,14 +30,16 @@ ajax.interceptors.request.use((config) => {
 ajax.interceptors.response.use(
     async (response) => {
         if (response.headers['x-bearer']) {
-            engageToken(response.headers['x-bearer'])
+            window.localStorage.setItem('Bearer', response.headers['x-bearer'])
         }
 
         if (typeof response.headers['x-refresh'] !== 'undefined') {
             if (response.headers['x-refresh']) {
                 window.localStorage.setItem('Refresh', response.headers['x-refresh'])
-            } else {
-                token = `Refresh ${window.localStorage.getItem('Refresh')}`
+            } 
+            
+            else {
+            //     token = `Refresh ${window.localStorage.getItem('Refresh')}`
                 const refreshResponse = await ajax(response.config)
 
                 return refreshResponse
@@ -46,12 +49,16 @@ ajax.interceptors.response.use(
         return response
     },
     (error: AxiosError) => {
-
-        if (error.response && error.response.status === 422) {
-            return Promise.reject({
-                status: 422,
-                data: error.response.data,
-            });
+        if (error.response) {
+            if (error.response.status === 422) {
+                return Promise.reject({
+                    status: 422,
+                    data: error.response.data,
+                });
+            } else if (error.response.status === 401) {
+                window.localStorage.clear()
+                window.location.reload()
+            }
         }
 
         return Promise.reject({
