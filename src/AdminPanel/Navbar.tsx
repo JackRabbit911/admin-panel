@@ -10,6 +10,7 @@ const Navbar = () => {
   const __ = useTranslate()
 
   const onLogout = () => {
+    window.localStorage.clear()
     dispatch(logout())
   }
 
