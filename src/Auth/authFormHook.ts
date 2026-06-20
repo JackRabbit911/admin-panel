@@ -3,7 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { useAuthMutation } from "../shared/api";
 import { isObjectEmpty } from "../shared/utils";
-import { setUsername } from "../shared/store/username";
+import { setUser } from "../shared/store/authSlice";
 import { useAppDispatch } from "../shared/store/hooks";
 import { useFormServerError } from "../shared/hooks/formServerError";
 import { authData, type AuthData } from "./schema";
@@ -29,8 +29,7 @@ export const useAuthForm = () => {
       const onSubmit: SubmitHandler<AuthData> = async (formData) => {
         try {
           const data = await auth(formData).unwrap()
-          dispatch(setUsername(data?.result?.name))
-          console.log(data)
+          dispatch(setUser(data?.result?.user))
         } catch (err) {
           const isHandled = handleServerError(err, methods.setError);
           if (!isHandled) {
