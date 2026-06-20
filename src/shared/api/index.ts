@@ -12,7 +12,10 @@ export const api = createApi({
                 data: authData,
             }),
         }),
+        common: builder.query({
+            query: (arg) => arg,
+        })
     }),
 });
 
-export const { useAuthMutation } = api
+export const { useAuthMutation, useCommonQuery } = api
