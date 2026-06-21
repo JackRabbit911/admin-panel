@@ -20,7 +20,7 @@ export const getTranslateUri = `${host}/api/gettranslate`
 
 console.log(getTranslateUri);
 
-export const defaultTranslateKeys = ['Loading', 'Invalid email address']
+export const defaultTranslateKeys = ['Loading', 'Invalid email address', 'Log Out']
 
 export const detectLang = (): string => detectLangByAttribute()
 // export const detectLang = (): string => detectLangByUri()
