@@ -3,8 +3,12 @@ import type { User } from "../types";
 
 type TokenPayload = JwtPayload & { user: User };
 
-export const getToken = () => {
-    let token = window.localStorage.getItem('Bearer') || ''
+export const getToken = (token: string) => {
+    if (token) {
+        return token
+    }
+
+    token = window.localStorage.getItem('Bearer') || ''
 
     if (token) {
         const { exp }: TokenPayload = jwtDecode(token)
