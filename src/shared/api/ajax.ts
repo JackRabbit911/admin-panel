@@ -18,7 +18,7 @@ const ajax = axios.create({
 });
 
 ajax.interceptors.request.use((config) => {
-    token = getToken()
+    token = getToken(token)
 
     if (token) {
         config.headers.Authorization = token
@@ -39,7 +39,7 @@ ajax.interceptors.response.use(
             } 
             
             else {
-            //     token = `Refresh ${window.localStorage.getItem('Refresh')}`
+                token = `Refresh ${window.localStorage.getItem('Refresh')}`
                 const refreshResponse = await ajax(response.config)
 
                 return refreshResponse
