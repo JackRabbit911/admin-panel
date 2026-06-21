@@ -5,17 +5,24 @@ export const api = createApi({
     reducerPath: 'api',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        auth: builder.mutation({
-            query: (authData) => ({
-                url: '/auth/login',
+        post: builder.mutation({
+            query: (arg) => ({
+                url: arg.url,
                 method: 'POST',
-                data: authData,
+                data: arg.data,
             }),
         }),
-        common: builder.query({
+        delete: builder.mutation({
+            query: (arg) => ({
+                url: arg.url,
+                method: 'DELETE',
+                data: arg.data,
+            }),
+        }),
+        get: builder.query({
             query: (arg) => arg,
         })
     }),
 });
 
-export const { useAuthMutation, useCommonQuery } = api
+export const { usePostMutation, useDeleteMutation, useGetQuery } = api
