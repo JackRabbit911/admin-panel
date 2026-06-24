@@ -1,17 +1,16 @@
-// import { useTranslate } from "common/i18n/hooks"
+import { useTranslate } from "../shared/i18n/hooks"
 
 const Loading = () => {
-  // const __ = useTranslate()
+  const __ = useTranslate()
 
   return (
-    <div className="text-center text-2xl">
-      Loading
-      {/* {__('Loading')}{' '} */}
-      <span className="loading loading-dots"></span>
+    <div className="flex flex-col justify-center min-h-[84vh]">
+      <div className="w-full text-center text-2xl">
+        {__('Loading')}{' '}
+        <span className="loading loading-dots"></span>
+      </div>
     </div>
   )
 }
-
-
 
 export default Loading
