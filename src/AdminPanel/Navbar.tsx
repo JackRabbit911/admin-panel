@@ -1,15 +1,23 @@
 import Sandwich from "./Sandwich";
 import { host } from "../shared/api/ajax";
+import { useDeleteMutation } from "../shared/api";
 import { logout } from "../shared/store/authSlice";
 import { useTranslate } from "../shared/i18n/hooks";
 import { useAppDispatch, useAppSelector } from "../shared/store/hooks";
 
 const Navbar = () => {
-  const user = useAppSelector((state) => state.auth.user)
+  const { user, refresh } = useAppSelector((state) => state.auth)
+  const [exit] = useDeleteMutation()
   const dispatch = useAppDispatch()
   const __ = useTranslate()
 
   const onLogout = () => {
+    const arg = {
+      url: '/auth/logout',
+      body: {token: refresh},
+    }
+
+    exit(arg)
     window.localStorage.clear()
     dispatch(logout())
   }
