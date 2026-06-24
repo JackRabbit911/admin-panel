@@ -1,22 +1,22 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { axiosBaseQuery } from './baseQuery';
+import { myBaseQuery } from './baseQuery';
 
 export const api = createApi({
     reducerPath: 'api',
-    baseQuery: axiosBaseQuery(),
+    baseQuery: myBaseQuery(),
     endpoints: (builder) => ({
         post: builder.mutation({
             query: (arg) => ({
                 url: arg.url,
                 method: 'POST',
-                data: arg.data,
+                body: arg.body,
             }),
         }),
         delete: builder.mutation({
             query: (arg) => ({
                 url: arg.url,
                 method: 'DELETE',
-                data: arg.data,
+                body: arg.body,
             }),
         }),
         get: builder.query({
