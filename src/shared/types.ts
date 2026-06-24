@@ -8,3 +8,14 @@ export type User = {
     name?: string;
     role?: number;
 }
+
+export type ApiResponse<T, E = ServerError[]> = {
+  success: boolean;
+  error?: E;
+  result: T;
+};
+
+export type AuthTokens = {
+    refresh: string;
+    bearer: string;
+}
