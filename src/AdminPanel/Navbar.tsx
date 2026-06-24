@@ -1,5 +1,5 @@
 import Sandwich from "./Sandwich";
-import { host } from "../shared/api/ajax";
+import { host } from "../shared/api/baseQuery";
 import { useDeleteMutation } from "../shared/api";
 import { logout } from "../shared/store/authSlice";
 import { useTranslate } from "../shared/i18n/hooks";
