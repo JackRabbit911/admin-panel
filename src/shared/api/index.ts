@@ -25,4 +25,4 @@ export const api = createApi({
     }),
 });
 
-export const { usePostMutation, useDeleteMutation, useGetQuery } = api
+export const { usePostMutation, useDeleteMutation, useGetQuery, useLazyGetQuery } = api
