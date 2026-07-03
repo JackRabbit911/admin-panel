@@ -26,7 +26,10 @@ const authSlice = createSlice({
             state.bearer = action?.payload.bearer
         },
         setTokens: (state, action: PayloadAction<Tokens>) => {
-            state.refresh = action?.payload.refresh
+            if (action?.payload?.refresh) {
+                state.refresh = action?.payload.refresh
+            }
+
             state.bearer = action?.payload.bearer
         },
         logout: (state) => {
