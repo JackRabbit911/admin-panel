@@ -3,14 +3,15 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 import type { RootState } from '../store';
-import { logout, setTokens } from '../store/authSlice';
+import { logout, setToken } from '../store/authSlice';
 import type { ApiResponse, AuthTokens } from '../types';
+import { authUrl, refreshUrl } from '../constants';
 
 const { protocol, hostname } = window.location
 export const host = `${protocol}//${hostname}`
 
 const refreshApi = {
-    url: '/auth/refresh',
+    url: refreshUrl,
     method: 'POST',
     body: {},
 }
@@ -18,7 +19,7 @@ const refreshApi = {
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `${host}/api/adm`,
+    baseUrl: `/api/adm`,
     prepareHeaders: (headers, { getState }) => {
         const { bearer } = (getState() as RootState).auth
 
@@ -40,19 +41,24 @@ export const myBaseQuery = (): BaseQueryFn<
 
     // ПЕРЕХВАТ ОШИБКИ 401 (Сессия устарела)
     if (result.error && result.error.status === 401) {
+        const currentUrl = typeof args === 'string' ? args : args.url
+
+        if (currentUrl === authUrl) {
+            window.location.href = `${host}/auth`
+            return result
+        }
+
         if (!mutex.isLocked()) {
             const release = await mutex.acquire()
 
             try {
-                const state = api.getState() as RootState
-                const refresh = state.auth.refresh
-
-                refreshApi.body = { refresh }
                 const response = await baseQuery(refreshApi, api, extraOptions);
                 const data = response?.data as ApiResponse<AuthTokens>
 
+                console.log(data);
+
                 if (data?.success && data?.result) {
-                    api.dispatch(setTokens(data.result))
+                    api.dispatch(setToken(data.result))
                     result = await baseQuery(args, api, extraOptions);
                 } else {
                     api.dispatch(logout())

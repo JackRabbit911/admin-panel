@@ -6,6 +6,8 @@ export type ServerError = FetchBaseQueryError | SerializedError | undefined;
 export type User = {
     id?: number;
     name?: string;
+    dob?: string;
+    sex?: number;
     role?: number;
 }
 
