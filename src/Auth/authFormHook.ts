@@ -34,9 +34,9 @@ export const useAuthForm = () => {
       }
 
       const data = await auth(arg).unwrap()
-      const { refresh, bearer, user } = data?.result
+      const { bearer, user } = data?.result
 
-      dispatch(setCredentials({ user, refresh, bearer }))
+      dispatch(setCredentials({ user, bearer }))
 
     } catch (err) {
       const isHandled = handleServerError(err, methods.setError);
