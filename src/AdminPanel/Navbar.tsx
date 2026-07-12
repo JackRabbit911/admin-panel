@@ -1,35 +1,19 @@
 import Sandwich from "./Sandwich";
 import { host } from "../shared/api/baseQuery";
-import { useDeleteMutation } from "../shared/api";
-import { logout } from "../shared/store/authSlice";
 import { useTranslate } from "../shared/i18n/hooks";
-import { useAppDispatch, useAppSelector } from "../shared/store/hooks";
+import { useDeleteMutation, useGetQuery } from "../shared/api";
+import { authUrl, logoutUrl, quitUrl } from "../shared/constants";
 
 const Navbar = () => {
-  const { user, refresh } = useAppSelector((state) => state.auth)
+  const { data } = useGetQuery(authUrl);
   const [exit] = useDeleteMutation()
-  const dispatch = useAppDispatch()
   const __ = useTranslate()
 
-  const onLogout = () => {
-    const arg = {
-      url: '/auth/logout',
-      body: { refresh: refresh },
-    }
+  const user = data?.result?.user ? data.result.user : null;
 
-    exit(arg)
-    window.localStorage.clear()
-    dispatch(logout())
-  }
-
-  const onQuit = () => {
-    const arg = {
-      url: '/auth/quit',
-      body: { refresh: refresh },
-    }
-
-    exit(arg)
-    dispatch(logout())
+  const onLogout = (url: string) => {
+    exit({ url: url })
+    window.location.href = `${host}/auth`
   }
 
   return (
@@ -61,12 +45,12 @@ const Navbar = () => {
               className="dropdown-content menu bg-base-100 max-h-[70vh] overflow-y-auto rounded-box z-50 min-w-38 p-2 mt-3 shadow-sm"
             >
               <li>
-                <button onClick={onLogout}>
+                <button onClick={() => onLogout(logoutUrl)}>
                   {__('Of this device')}
                 </button>
               </li>
               <li>
-                <button onClick={onQuit}>
+                <button onClick={() => onLogout(quitUrl)}>
                   {__('Of all devices')}
                 </button>
               </li>
