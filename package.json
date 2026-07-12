@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "vite --host ru.localhost",
+    "build": "tsc -b && vite build; cp dist/assets/*.js ../ru/public/abrakadabra/assets/main.js && cp dist/assets/*.css ../ru/public/abrakadabra/assets/style.css",
     "lint": "eslint .",
     "preview": "vite preview"
   },
