@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { User } from '../types';
 
 type Tokens = {
-    refresh: string;
+    // refresh: string;
     bearer: string;
 }
 
@@ -12,7 +12,7 @@ type AuthState = Tokens & {
 
 const initialState: AuthState = {
     user: null,
-    refresh: '',
+    // refresh: '',
     bearer: '',
 }
 
@@ -22,23 +22,23 @@ const authSlice = createSlice({
     reducers: {
         setCredentials: (state, action: PayloadAction<AuthState>) => {
             state.user = action?.payload.user
-            state.refresh = action?.payload.refresh
+            // state.refresh = action?.payload.refresh
             state.bearer = action?.payload.bearer
         },
-        setTokens: (state, action: PayloadAction<Tokens>) => {
-            if (action?.payload?.refresh) {
-                state.refresh = action?.payload.refresh
-            }
+        setToken: (state, action: PayloadAction<Tokens>) => {
+            // if (action?.payload?.refresh) {
+            //     state.refresh = action?.payload.refresh
+            // }
 
             state.bearer = action?.payload.bearer
         },
         logout: (state) => {
             state.user = null
-            state.refresh = ''
+            // state.refresh = ''
             state.bearer = ''
         },
     },
 })
 
-export const { setCredentials, setTokens, logout } = authSlice.actions
+export const { setCredentials, setToken, logout } = authSlice.actions
 export default authSlice.reducer
