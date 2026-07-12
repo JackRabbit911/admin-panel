@@ -8,4 +8,22 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  base: '/abrakadabra/',
+  server: {
+    host: true, // Позволяет Docker пробрасывать порт наружу
+    port: 5173,
+    strictPort: true,
+    proxy: {
+      // Все запросы, начинающиеся с /api, пойдут на бэкенд
+      '/api': {
+        target: 'http://ru.localhost:80',
+        changeOrigin: true,
+        secure: false,
+      }
+    },
+    hmr: {
+      host: 'ru.localhost',
+      protocol: 'ws',
+    }
+  }
 })
