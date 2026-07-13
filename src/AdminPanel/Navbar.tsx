@@ -1,15 +1,22 @@
 import Sandwich from "./Sandwich";
 import { host } from "../shared/api/baseQuery";
 import { useTranslate } from "../shared/i18n/hooks";
-import { useDeleteMutation, useGetQuery } from "../shared/api";
+import { useDeleteMutation, useGetQuery, useLazyGetQuery } from "../shared/api";
 import { authUrl, logoutUrl, quitUrl } from "../shared/constants";
 
 const Navbar = () => {
   const { data } = useGetQuery(authUrl);
   const [exit] = useDeleteMutation()
+  const [trigger] = useLazyGetQuery()
   const __ = useTranslate()
 
-  const user = data?.result?.user ? data.result.user : null;
+  const user = data?.result ? data.result : null;
+  
+  const onSend = () => {
+    trigger({ url: '/test'})
+    trigger({ url: '/test/act1'})
+    trigger({ url: '/test/act2'})
+  }
 
   const onLogout = (url: string) => {
     exit({ url: url })
@@ -28,6 +35,9 @@ const Navbar = () => {
             <Sandwich />
           </label>
         </div>
+        <button className="btn" onClick={onSend}>
+          Send
+        </button>
         <div className="flex-none">
           <span className="text-sm">
             {user?.name}
