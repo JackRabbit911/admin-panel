@@ -3,8 +3,8 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 import type { RootState } from '../store';
-import { logout, setToken } from '../store/authSlice';
-import type { ApiResponse, AuthTokens } from '../types';
+import { logout, setToken } from '../store/tokenSlice';
+import type { ApiResponse } from '../types';
 import { authUrl, refreshUrl } from '../constants';
 
 const { protocol, hostname } = window.location
@@ -21,7 +21,7 @@ const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
     baseUrl: `/api/adm`,
     prepareHeaders: (headers, { getState }) => {
-        const { bearer } = (getState() as RootState).auth
+        const { bearer } = (getState() as RootState).token
 
         if (bearer) {
             headers.set('authorization', `Bearer ${bearer}`);
@@ -53,10 +53,8 @@ export const myBaseQuery = (): BaseQueryFn<
 
             try {
                 const response = await baseQuery(refreshApi, api, extraOptions);
-                const data = response?.data as ApiResponse<AuthTokens>
-
-                console.log(data);
-
+                const data = response?.data as ApiResponse<string>
+                
                 if (data?.success && data?.result) {
                     api.dispatch(setToken(data.result))
                     result = await baseQuery(args, api, extraOptions);
@@ -71,19 +69,14 @@ export const myBaseQuery = (): BaseQueryFn<
             result = await baseQuery(args, api, extraOptions);
         }
 
-        // const state = api.getState() as RootState
-        // const refresh = state.auth.refresh
-
-        // refreshApi.body = { refresh }
+        
         // const response = await baseQuery(refreshApi, api, extraOptions);
-        // const data = response?.data as ApiResponse<AuthTokens>
+        // const data = response?.data as ApiResponse<string>
 
         // if (data?.success && data?.result) {
-        //     // console.log(data?.result)
-        //     api.dispatch(setTokens(data.result))
+        //     api.dispatch(setToken(data.result))
         //     result = await baseQuery(args, api, extraOptions);
         // } else {
-        //     // console.log('logout')
         //     api.dispatch(logout())
         // }
     }
