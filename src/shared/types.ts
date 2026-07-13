@@ -3,21 +3,8 @@ import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export type ServerError = FetchBaseQueryError | SerializedError | undefined;
 
-export type User = {
-    id?: number;
-    name?: string;
-    dob?: string;
-    sex?: number;
-    role?: number;
-}
-
 export type ApiResponse<T, E = ServerError[]> = {
   success: boolean;
   error?: E;
   result: T;
 };
-
-export type AuthTokens = {
-    refresh: string;
-    bearer: string;
-}
