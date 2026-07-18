@@ -43,7 +43,7 @@ export const myBaseQuery = (): BaseQueryFn<
     if (result.error && result.error.status === 401) {
         const currentUrl = typeof args === 'string' ? args : args.url
 
-        if (currentUrl === authUrl) {
+        if (currentUrl === authUrl || currentUrl === refreshUrl) {
             window.location.href = `${host}/auth`
             return result
         }
@@ -60,6 +60,7 @@ export const myBaseQuery = (): BaseQueryFn<
                     result = await baseQuery(args, api, extraOptions);
                 } else {
                     api.dispatch(logout())
+                    window.location.href = `${host}/auth`
                 }
             } finally {
                 release()
