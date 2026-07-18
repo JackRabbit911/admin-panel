@@ -1,8 +1,8 @@
 import Sandwich from "./Sandwich";
 import { host } from "../shared/api/baseQuery";
 import { useTranslate } from "../shared/i18n/hooks";
+import { authUrl, logoutUrl } from "../shared/constants";
 import { useDeleteMutation, useGetQuery, useLazyGetQuery } from "../shared/api";
-import { authUrl, logoutUrl, quitUrl } from "../shared/constants";
 
 const Navbar = () => {
   const { data } = useGetQuery(authUrl);
@@ -11,11 +11,11 @@ const Navbar = () => {
   const __ = useTranslate()
 
   const user = data?.result ? data.result : null;
-  
+
   const onSend = () => {
-    trigger({ url: '/test'})
-    trigger({ url: '/test/act1'})
-    trigger({ url: '/test/act2'})
+    trigger({ url: '/test' })
+    trigger({ url: '/test/act1' })
+    trigger({ url: '/test/act2' })
   }
 
   const onLogout = (url: string) => {
@@ -47,25 +47,12 @@ const Navbar = () => {
               <img src={`${host}/ava/user/${user?.id}`} />
             </div>
           </div>
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost">
-              {__('Log Out')}
-            </div>
-            <ul tabIndex={0}
-              className="dropdown-content menu bg-base-100 max-h-[70vh] overflow-y-auto rounded-box z-50 min-w-38 p-2 mt-3 shadow-sm"
-            >
-              <li>
-                <button onClick={() => onLogout(logoutUrl)}>
-                  {__('Of this device')}
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onLogout(quitUrl)}>
-                  {__('Of all devices')}
-                </button>
-              </li>
-            </ul>
-          </div>
+          <button
+            className="btn btn-ghost"
+            onClick={() => onLogout(logoutUrl)}
+          >
+            {__('Log Out')}
+          </button>
         </div>
       </nav>
     </div>
