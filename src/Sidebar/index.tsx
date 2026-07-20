@@ -1,27 +1,32 @@
-import { NavLink } from "react-router";
-import { sideItems } from "./constants";
+import Item from "./Item";
 import Submenu from "./Submenu";
+import { useGetQuery } from "../shared/api";
+import { getSidebarUrl } from "../shared/constants";
+import type { SideItem } from "./types";
 
 type Props = {
   onClose: () => void;
 }
 
-const Sidebar = ({onClose}: Props) => {
-  return (
+const Sidebar = ({ onClose }: Props) => {
+  const { data } = useGetQuery({ url: getSidebarUrl })
+  const menu: SideItem[] = data?.result ? data.result : null;
+
+  return menu && (
     <ul className="menu bg-base-200 text-base-content min-h-full w-full p-2">
-      {sideItems.map(
+      {menu.map(
         (item, key) => !item?.sub ? (
-          <li key={key}>
-            <NavLink
-              className={({ isActive }) => isActive ? "menu-active" : ''}
-              to={item.href as string}
-              onClick={onClose}
-            >
-              {item.title}
-            </NavLink>
-          </li>
+          <Item
+            key={key + item.label}
+            onClose={onClose}
+            item={item}
+          />
         ) : (
-          <Submenu item={item} key={key} />
+          <Submenu
+            key={key + item.label}
+            onClose={onClose}
+            item={item}
+          />
         )
       )}
     </ul>
