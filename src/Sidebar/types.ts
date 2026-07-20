@@ -1,5 +1,6 @@
 export type SideItem = {
-  href?: string;
-  title: string;
+  label: string;
+  to: string;
   sub?: SideItem[];
+  disabled?: boolean;
 }
