@@ -1,24 +1,38 @@
 import type { SideItem } from "./types";
+import Item from "./Item";
 
 type Props = {
+  onClose: () => void;
   item: SideItem;
+  prefix?: string;
 }
 
-const Submenu = ({ item }: Props) => {
+const Submenu = ({ onClose, item, prefix = '' }: Props) => {
+  const { label, to, disabled } = item
+  const myPrefix = Boolean(prefix) ? [prefix, to].join('/') : to
+
   return (
-    <li>
+    <li
+      className={disabled ? "disabled pointer-events-none opacity-50" : ""}
+    >
       <details>
-        <summary>{item.title}</summary>
+        <summary>{label}</summary>
         <ul>
           {(item?.sub || []).map(
-            (item, key) => !item?.sub ? (
-              <li key={key}>
-                <a href={item.href}>
-                  {item.title}
-                </a>
-              </li>
+            (subItem, key) => !subItem?.sub ? (
+              <Item
+                key={key + subItem.label}
+                onClose={onClose}
+                item={subItem}
+                prefix={myPrefix}
+              />
             ) : (
-              <Submenu item={item} key={key} />
+              <Submenu
+                key={key + subItem.label}
+                onClose={onClose}
+                item={subItem}
+                prefix={myPrefix} 
+              />
             )
           )}
         </ul>
