@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Navbar from "./Navbar"
 import { NavLink } from "react-router"
-import Sidebar from "../Sidebar"
+import Sidebar from "./Sidebar"
 import Router from "./Router"
 
 const AdminPanel = () => {
