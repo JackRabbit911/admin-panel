@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <div className="glass sticky top-0 z-40">
-      <nav className="navbar shadow-sm z-80 h-16">
+      <nav className="navbar shadow-sm z-40 h-16">
         <div className="flex-1">
           <label
             htmlFor="my-drawer"
