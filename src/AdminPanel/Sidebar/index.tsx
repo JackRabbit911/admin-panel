@@ -1,7 +1,7 @@
 import Item from "./Item";
 import Submenu from "./Submenu";
-import { useGetQuery } from "../shared/api";
-import { getSidebarUrl } from "../shared/constants";
+import { useGetQuery } from "../../shared/api";
+import { getSidebarUrl } from "../../shared/constants";
 import type { SideItem } from "./types";
 
 type Props = {
