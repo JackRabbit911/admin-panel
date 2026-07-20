@@ -28,10 +28,10 @@ const AdminPanel = () => {
           <Router />
         </div>
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side z-80">
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         <aside className="bg-base-200 text-base-content min-h-full w-64 xl:w-80">
-          <nav className="navbar shadow-sm flex justify-center sticky top-0 bg-lime-200 h-16 z-40">
+          <nav className="navbar shadow-sm flex justify-center sticky top-0 bg-lime-200 h-16">
             <NavLink onClick={onClose} to='/'>
               <h2 className="text-center text-2xl font-medium text-violet-800">
                 Admin panel
