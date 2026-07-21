@@ -1,8 +1,8 @@
 import Sandwich from "./Sandwich";
-import { host } from "../shared/api/baseQuery";
-import { useTranslate } from "../shared/i18n/hooks";
-import { authUrl, logoutUrl } from "../shared/constants";
-import { useDeleteMutation, useGetQuery, useLazyGetQuery } from "../shared/api";
+import { host } from "shared/api/baseQuery";
+import { useTranslate } from "shared/i18n/hooks";
+import { authUrl, logoutUrl } from "shared/constants";
+import { useDeleteMutation, useGetQuery, useLazyGetQuery } from "shared/api";
 
 const Navbar = () => {
   const { data } = useGetQuery(authUrl);
