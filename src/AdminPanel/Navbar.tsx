@@ -10,7 +10,7 @@ const Navbar = () => {
   const [trigger] = useLazyGetQuery()
   const __ = useTranslate()
 
-  const user = data?.result ? data.result : null;
+  const user = data?.result.user ? data.result.user : null;
 
   const onSend = () => {
     trigger({ url: '/test' })
