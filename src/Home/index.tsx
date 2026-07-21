@@ -1,12 +1,15 @@
-import { useAppSelector } from "../shared/store/hooks"
+import { useGetQuery } from "shared/api"
+import { getDashboardUrl } from "shared/constants"
 
 const Home = () => {
-  const bearer = useAppSelector((state) => state.token.bearer)
+  const { data } = useGetQuery({ url: getDashboardUrl })
+  const dashboard = data?.result || null
 
   return (
     <>
       <div className="break-all">
-        {bearer}
+        <h1 className="text-2xl">Dashboard</h1>
+        {dashboard && <h1>{dashboard}</h1>}
       </div>
     </>
   )

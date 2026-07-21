@@ -2,10 +2,11 @@ import { Mutex } from 'async-mutex'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 
-import type { RootState } from '../store'
-import type { ApiResponse } from '../types'
-import { authUrl, refreshUrl } from '../constants'
-import { logout, setToken } from '../store/tokenSlice'
+import { authUrl, refreshUrl } from 'shared/constants'
+import { logout, setToken } from 'shared/store/tokenSlice'
+
+import type { RootState } from 'shared/store'
+import type { ApiResponse } from 'shared/types'
 
 const { protocol, hostname } = window.location
 export const host = `${protocol}//${hostname}`
@@ -21,7 +22,7 @@ const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
     baseUrl: `/api/adm`,
     prepareHeaders: (headers, { getState }) => {
-        const { bearer } = (getState() as RootState).token
+        const { token: { bearer} } = (getState() as RootState)
 
         if (bearer) {
             headers.set('authorization', `Bearer ${bearer}`)
@@ -69,17 +70,6 @@ export const myBaseQuery = (): BaseQueryFn<
             await mutex.waitForUnlock();
             result = await baseQuery(args, api, extraOptions)
         }
-
-        
-        // const response = await baseQuery(refreshApi, api, extraOptions)
-        // const data = response?.data as ApiResponse<string>
-
-        // if (data?.success && data?.result) {
-        //     api.dispatch(setToken(data.result))
-        //     result = await baseQuery(args, api, extraOptions)
-        // } else {
-        //     api.dispatch(logout())
-        // }
     }
 
     // ПЕРЕХВАТ ОШИБКИ 422 (Ошибки валидации бэкенда)
