@@ -1,8 +1,8 @@
 import { useState } from "react"
-import Navbar from "./Navbar"
 import { NavLink } from "react-router"
-import Sidebar from "./Sidebar"
+import Navbar from "./Navbar"
 import Router from "./Router"
+import Sidebar from "./Sidebar"
 
 const AdminPanel = () => {
   const [isShown, setIsShown] = useState(false)
