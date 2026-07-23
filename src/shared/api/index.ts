@@ -21,8 +21,26 @@ export const api = createApi({
         }),
         get: builder.query({
             query: (arg) => arg,
-        })
+        }),
+        filterSearch: builder.query({
+            query: ({ url, page, limit, search, filter }) => ({
+                url,
+                params: {
+                    page,
+                    limit: limit || undefined,
+                    search: search || undefined,
+                    filter: filter || undefined,
+                },
+            }),
+            keepUnusedDataFor: 0,
+        }),
     }),
-});
+})
 
-export const { usePostMutation, useDeleteMutation, useGetQuery, useLazyGetQuery } = api
+export const {
+    usePostMutation,
+    useDeleteMutation,
+    useGetQuery,
+    useLazyGetQuery,
+    useFilterSearchQuery,
+} = api
