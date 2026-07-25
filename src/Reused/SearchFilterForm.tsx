@@ -1,4 +1,4 @@
-import type { FilterFormValues } from "Pages/Users/schema";
+import type { FilterFormValues } from "Reused/Paginator/schema";
 import type { FieldError, UseFormRegister } from "react-hook-form"
 import { useTranslate } from "shared/i18n/hooks";
 
