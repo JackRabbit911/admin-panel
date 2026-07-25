@@ -5,12 +5,10 @@ type Props = {
 }
 
 const PerPage = ({
-  perPages = [25, 50, 100],
+  perPages = [24, 60, 120],
   limit,
   setLimit,
 }: Props) => {
-  // const onSetPerPage = (count: number) => () => setPerPage(count)
-
   const getClassName = (count: number) =>
     `join-item btn btn-sm ${limit === count ? 'btn-active' : ''}`
 
