@@ -1,22 +1,28 @@
 import { useEffect } from "react"
 import { useLocation } from "react-router"
 
-import AdminPanel from "./AdminPanel"
-import { useGetQuery } from "./shared/api"
-import { authUrl } from "./shared/constants"
-import { setToken } from "./shared/store/tokenSlice"
-import { useAppDispatch } from "./shared/store/hooks"
-import TranslateProvider from "./shared/i18n/TranslateProvider"
+import AdminPanel from "AdminPanel"
+import { useGetQuery } from "shared/api"
+import { getUserByJWT } from "shared/utils"
+import { authUrl } from "shared/constants"
+import { setUser } from "shared/store/userSlice"
+import { setToken } from "shared/store/tokenSlice"
+import { useAppDispatch } from "shared/store/hooks"
+import TranslateProvider from "shared/i18n/TranslateProvider"
 
 function App() {
   const location = useLocation()
   const { data } = useGetQuery(authUrl)
   const dispatch = useAppDispatch()
 
-  const token = data?.result.bearer ? data.result.bearer : null
+  const token = data?.result ? data.result : null
 
   useEffect(() => {
-    dispatch(setToken(token))
+    if (token) {
+      const user = getUserByJWT(token)
+      dispatch(setToken(token))
+      dispatch(setUser(user))
+    }
   }, [token, dispatch])
 
   return (
