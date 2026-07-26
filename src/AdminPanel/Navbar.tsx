@@ -1,16 +1,15 @@
-import Sandwich from "./Sandwich";
-import { host } from "shared/api/baseQuery";
-import { useTranslate } from "shared/i18n/hooks";
-import { authUrl, logoutUrl } from "shared/constants";
-import { useDeleteMutation, useGetQuery, useLazyGetQuery } from "shared/api";
+import Sandwich from "./Sandwich"
+import { host } from "shared/api/baseQuery"
+import { logoutUrl } from "shared/constants"
+import { useTranslate } from "shared/i18n/hooks"
+import { useAppSelector } from "shared/store/hooks"
+import { useDeleteMutation, useLazyGetQuery } from "shared/api"
 
 const Navbar = () => {
-  const { data } = useGetQuery(authUrl);
+  const user = useAppSelector((state) => state.user.user)
   const [exit] = useDeleteMutation()
   const [trigger] = useLazyGetQuery()
   const __ = useTranslate()
-
-  const user = data?.result.user ? data.result.user : null;
 
   const onSend = () => {
     trigger({ url: '/test' })
