@@ -1,3 +1,8 @@
+import { jwtDecode, type JwtPayload } from "jwt-decode";
+import type { User } from "Pages/Users/types";
+
+type MyJwtPayload = JwtPayload & { user: User }
+
 export const isObjectEmpty = (obj: object) => {
   for (const prop in obj) {
     if (Object.hasOwn(obj, prop)) {
@@ -22,4 +27,9 @@ export const getObjectProp = (object: object, key: string) => {
   })
 
   return m;
+}
+
+export const getUserByJWT = (token: string) => {
+  const payload = jwtDecode(token) as MyJwtPayload
+  return payload?.user
 }
