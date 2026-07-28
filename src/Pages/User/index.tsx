@@ -28,74 +28,79 @@ const UserCmp = () => {
   return (
     <UserLayOut>
       {user &&
-        <div>
-          <div className="flex justify-between mb-4">
-            <div
-              className="avatar aspect-square size-24"
-              style={{ cursor: 'pointer' }}
-            >
-              {id && <img src={`${host}${user.avatarUrl}`} alt={user.name} />}
+        <>
+          <div>
+            <div className="flex justify-between mb-4">
+              <div
+                className="avatar aspect-square size-24"
+                style={{ cursor: 'pointer' }}
+              >
+                {id && <img src={`${host}${user.avatarUrl}`} alt={user.name} />}
+              </div>
+              <h1 className="text-2xl ms-4">
+                {user.name}
+              </h1>
             </div>
-            <h1 className="text-2xl ms-4">
-              {user.name}
-            </h1>
+            <p className="flex justify-between mb-2">
+              <span>{__('Date of birth')}:</span>
+              <span>{dateLoc(user.dob)}</span>
+            </p>
+            <p className="flex justify-between mb-2">
+              <span>{__('Register date')}:</span>
+              <span>{dateLoc(user.created)}</span>
+            </p>
+            <p className="flex justify-between mb-2">
+              <span>Email:</span>
+              <span>{user.email}</span>
+            </p>
+            <p className="flex justify-between mb-2">
+              <span>{__('Phone')}:</span>
+              <span>{user.phone}</span>
+            </p>
+            <p className="flex justify-between mb-4">
+              <span>{__('Sex')}:</span>
+              <span>{user.sex ? __('Male') : __('Female')}</span>
+            </p>
+            <Collapse
+              label="Authors"
+              allow={user?.authors?.allow || false}
+              total={user?.authors?.total || 0}
+              own={user?.authors?.own}
+            >
+              <Authors
+                list={user?.authors?.list || []}
+              />
+            </Collapse>
+            <Collapse
+              label="Books"
+              allow={user?.books?.allow || false}
+              total={user?.books?.total || 0}
+              own={user?.books?.own}
+            >
+              <Books
+                list={user?.books?.list || []}
+              />
+            </Collapse>
+
+            <p className="flex justify-between mb-2">
+              <span>{__('Posts')}:</span>
+              <span>{user.posts}</span>
+            </p>
+            <p className="flex justify-between mb-2">
+              <span>{__('Comments')}:</span>
+              <span>{user.comments}</span>
+            </p>
+            <p className="flex justify-between mb-2">
+              <span>{__('Rating')}:</span>
+              <span>{user.rating}</span>
+            </p>
           </div>
-          <p className="flex justify-between mb-2">
-            <span>Дата рождения:</span>
-            <span>{dateLoc(user.dob)}</span>
-          </p>
-          <p className="flex justify-between mb-2">
-            <span>Дата регистрации:</span>
-            <span>{dateLoc(user.created)}</span>
-          </p>
-          <p className="flex justify-between mb-2">
-            <span>Email:</span>
-            <span>{user.email}</span>
-          </p>
-          <p className="flex justify-between mb-2">
-            <span>{__('Phone')}:</span>
-            <span>{user.phone}</span>
-          </p>
-          <p className="flex justify-between mb-4">
-            <span>{__('Sex')}:</span>
-            <span>{user.sex ? __('Male') : __('Female')}</span>
-          </p>
-          <Collapse
-            label="Authors"
-            allow={user?.authors?.allow || false}
-            total={user?.authors?.total || 0}
-            own={user?.authors?.own}
-          >
-            <Authors
-              list={user?.authors?.list || []}
-            />
-          </Collapse>
-          <Collapse
-            label="Books"
-            allow={user?.books?.allow || false}
-            total={user?.books?.total || 0}
-            own={user?.books?.own}
-          >
-            <Books
-              list={user?.books?.list || []}
-            />
-          </Collapse>
-          
-          <p className="flex justify-between mb-2">
-            <span>{__('Posts')}:</span>
-            <span>{user.posts}</span>
-          </p>
-          <p className="flex justify-between mb-2">
-            <span>{__('Comments')}:</span>
-            <span>{user.comments}</span>
-          </p>
-          <p className="flex justify-between mb-2">
-            <span>{__('Rating')}:</span>
-            <span>{user.rating}</span>
-          </p>  
-        </div>
+          <UserControls
+            __={__}
+            role={user.role}
+          />
+        </>
       }
-      <UserControls __={__} />
     </UserLayOut>
   )
 
