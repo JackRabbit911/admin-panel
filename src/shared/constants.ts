@@ -8,13 +8,15 @@ export const getPagesUrl = '/home/pages'
 export const getUsersUrl = '/users'
 
 //admin permissions
-export const P_TRANSLATE = 1 << 0
-export const P_SEO = 1 << 1
-export const P_BURIME = 1 << 2
-export const P_CONTENT = 1 << 3
-export const P_DEVELOP = 1 << 4
-export const P_USERS = 1 << 5
-export const P_ADMIN = 1 << 6
-export const P_COMMERCE = 1 << 7
-export const P_ROOT = 255
+export const P = {
+    ROOT: 255,
+    COMMERCE: 1 << 7,
+    ADMIN: 1 << 6,
+    USERS: 1 << 5,
+    DEVELOP: 1 << 4,
+    CONTENT: 1 << 3,
+    BURIME: 1 << 2,
+    SEO: 1 << 1,
+    TRANSLATE: 1 << 0,
+}
  
