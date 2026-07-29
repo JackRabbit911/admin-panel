@@ -97,7 +97,7 @@ const UserCmp = () => {
           </div>
           <UserControls
             __={__}
-            role={user.role}
+            user={user}
           />
         </>
       }
