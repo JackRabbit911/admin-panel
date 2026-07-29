@@ -9,6 +9,7 @@ import { setUser } from "shared/store/userSlice"
 import { setToken } from "shared/store/tokenSlice"
 import { useAppDispatch } from "shared/store/hooks"
 import TranslateProvider from "shared/i18n/TranslateProvider"
+import { ModalContainer } from "Reused/ModalContainer"
 
 function App() {
   const location = useLocation()
@@ -28,6 +29,7 @@ function App() {
   return (
     <TranslateProvider deps={[location]}>
       {token && <AdminPanel />}
+      <ModalContainer />
     </TranslateProvider>
   )
 }

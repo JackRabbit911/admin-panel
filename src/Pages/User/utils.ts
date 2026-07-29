@@ -1,22 +1,30 @@
-import { P_ADMIN, P_ROOT } from "shared/constants"
+import { P } from "shared/constants"
 
 export const getDisabled = (adminRole: number, userRole: number) => {
-    const allowBan = ((adminRole & P_ADMIN) === P_ADMIN && (userRole < P_ADMIN)) ||
-        (adminRole & P_ROOT) === P_ROOT
+    const allowBan = ((adminRole & P.ADMIN) === P.ADMIN && (userRole < P.ADMIN)) ||
+        (adminRole & P.ROOT) === P.ROOT
 
-    const allowAdmin = (((adminRole & P_ADMIN) === P_ADMIN)) && adminRole > userRole
+    const allowAdmin = (((adminRole & P.ADMIN) === P.ADMIN)) && adminRole > userRole
 
     return {
         disabledAdmin: !allowAdmin,
-        disabledRemove: (adminRole & P_ROOT) !== P_ROOT,
+        disabledRemove: (adminRole & P.ROOT) !== P.ROOT,
         disabledBan: !allowBan,
     }
 }
 
 export const getAdminBtnLabel = (userRole: number) => {
-    if ((userRole & P_ADMIN) > 0) {
+    if ((userRole & P.ADMIN) > 0) {
         return 'Change rights'
     }
 
     return 'Invite to Admin'
 }
+
+export const checkBoxDisabled = (value: number, adminRole: number) => value >= adminRole
+
+export const numberToBits = (num: number): boolean[] =>
+  Array.from({ length: 8 }, (_, i) => ((num >> (7 - i)) & 1) === 1)
+
+export const bitsToNumber = (bits: boolean[]): number =>
+  bits.reduce((acc, bit, i) => (bit ? acc + (1 << (7 - i)) : acc), 0)
