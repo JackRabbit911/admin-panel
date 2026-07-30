@@ -16,11 +16,13 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
     const dispatch = useAppDispatch()
     const [save] = usePostMutation()
 
-    const { handleSubmit, formState: { isDirty } } = useForm<MaskFormValues>({
+    const methods = useForm<MaskFormValues>({
         resolver: zodResolver(bitmaskPageSchema),
         mode: "onChange",
         defaultValues: { bits: numberToBits(Number(user.role)) },
     });
+
+    const { handleSubmit, formState: { isDirty }} = methods
 
     const onSubmit = handleSubmit(async (data: MaskFormValues) => {
         try {
@@ -59,5 +61,5 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
         }
     }, [isDirty]);
 
-    return { isDirty, isAlert, onSubmit }
+    return { methods, isAlert, onSubmit }
 }
