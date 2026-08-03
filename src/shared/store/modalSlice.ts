@@ -11,11 +11,15 @@ export interface ModalPropsMap {
 interface ModalState {
   type: ModalType | null;
   props: ModalPropsMap[ModalType] | null;
+  isGlobalLoading: boolean;
+  loadingMessage: string | null;
 }
 
 const initialState: ModalState = {
   type: null,
   props: null,
+  isGlobalLoading: false,
+  loadingMessage: null,
 };
 
 const modalSlice = createSlice({
@@ -26,15 +30,27 @@ const modalSlice = createSlice({
       state: ModalState,
       action: PayloadAction<{ type: T; props: ModalPropsMap[T] }>
     ) => {
-      state.type = action.payload.type;
-      state.props = action.payload.props;
+      state.type = action.payload.type
+      state.props = action.payload.props
     },
     closeModal: (state) => {
-      state.type = null;
-      state.props = null;
+      state.type = null
+      state.props = null
+    },
+    setGlobalLoading: (
+      state, 
+      action: PayloadAction<boolean | { isActive: boolean; message?: string }>
+    ) => {
+      if (typeof action.payload === 'boolean') {
+        state.isGlobalLoading = action.payload
+        if (!action.payload) state.loadingMessage = null // Сбрасываем текст при выключении
+      } else {
+        state.isGlobalLoading = action.payload.isActive;
+        state.loadingMessage = action.payload.message || null
+      }
     },
   },
-});
+})
 
-export const { openModal, closeModal } = modalSlice.actions;
-export default modalSlice.reducer;
+export const { openModal, closeModal, setGlobalLoading } = modalSlice.actions
+export default modalSlice.reducer
