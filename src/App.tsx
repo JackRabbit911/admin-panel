@@ -6,10 +6,10 @@ import { useGetQuery } from "shared/api"
 import { getUserByJWT } from "shared/utils"
 import { authUrl } from "shared/constants"
 import { setUser } from "shared/store/userSlice"
+import ModalContainer from "Reused/ModalContainer"
 import { setToken } from "shared/store/tokenSlice"
 import { useAppDispatch } from "shared/store/hooks"
 import TranslateProvider from "shared/i18n/TranslateProvider"
-import { ModalContainer } from "Reused/ModalContainer"
 
 function App() {
   const location = useLocation()

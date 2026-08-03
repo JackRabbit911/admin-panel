@@ -14,13 +14,13 @@ type SetDirty = (isDirty: boolean) => void;
 export const useBitMask = (user: User, setDirty: SetDirty) => {
     const [isAlert, setIsAlert] = useState(false)
     const dispatch = useAppDispatch()
-    const [save] = usePostMutation()
+    const [save, { isLoading }] = usePostMutation()
 
     const methods = useForm<MaskFormValues>({
         resolver: zodResolver(bitmaskPageSchema),
         mode: "onChange",
         defaultValues: { bits: numberToBits(Number(user.role)) },
-    });
+    })
 
     const { handleSubmit, formState: { isDirty }} = methods
 
@@ -61,5 +61,5 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
         }
     }, [isDirty]);
 
-    return { methods, isAlert, onSubmit }
+    return { methods, isAlert, isLoading, onSubmit }
 }
