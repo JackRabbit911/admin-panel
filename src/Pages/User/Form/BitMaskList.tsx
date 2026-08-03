@@ -26,7 +26,7 @@ const BitMaskList = () => {
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
-                  className="checkbox checkbox-md my-1"
+                  className="checkbox checkbox-sm my-1"
                   disabled={checkBoxDisabled(value, adminRole)}
                 />
               </label>
