@@ -45,9 +45,9 @@ const BitMask = ({ props: { user }, setDirty, onClose }: Props) => {
     <FormProvider {...methods}>
       <form
         onSubmit={onSubmit}
-        className="card bg-base-100 shadow-xl max-w-2xl p-6 border border-base-200"
+        className="p-4 border border-base-200"
       >
-        <div className="card-body p-0">
+        <div className="fieldset">
           <h2 className="card-title text-xl mb-1 text-base-content">Settings admin rights</h2>
           <h3 className="text-center">{isDirty ? <span className="text-warning">
             {__('Unsaved')}
