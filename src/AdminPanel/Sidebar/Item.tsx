@@ -1,5 +1,7 @@
 import { NavLink } from "react-router";
 import type { SideItem } from "./types";
+import { useAppDispatch } from "shared/store/hooks";
+import { resetStatus } from "shared/store/statusSlice";
 
 type Props = {
   onClose: () => void;
@@ -10,6 +12,12 @@ type Props = {
 const Item = ({ onClose, item, prefix = '' }: Props) => {
   const { label, to, disabled } = item
   const link = Boolean(prefix) ? [prefix, to].join('/') : to
+  const dispatch = useAppDispatch()
+
+  const handleClick = () => {
+    dispatch(resetStatus())
+    onClose()
+  }
 
   return (
     <li
@@ -17,7 +25,7 @@ const Item = ({ onClose, item, prefix = '' }: Props) => {
     >
       <NavLink
         to={link as string}
-        onClick={(e) => disabled ? e.preventDefault() : onClose}
+        onClick={(e) => disabled ? e.preventDefault() : handleClick()}
         className={({ isActive }) => isActive ? "menu-active" : ''}
       >
         {label}

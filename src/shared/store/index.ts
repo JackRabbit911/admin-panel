@@ -4,6 +4,7 @@ import { api } from "../api"
 import userReducer from "./userSlice"
 import tokenReducer from "./tokenSlice"
 import modalReducer from "./modalSlice"
+import statusReducer from "./statusSlice"
 import { LoadingMiddleware } from "./Middleware"
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         token: tokenReducer,
         user: userReducer,
         modal: modalReducer,
+        status: statusReducer,
         [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>
