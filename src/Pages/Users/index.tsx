@@ -28,7 +28,7 @@ const Users = () => {
     <div className="space-y-6">
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold tracking-tight">{__('Users list')}</h1>
-        <div>{__('% of % selected', selected, total)}</div>
+        <div>{__('%d of %d selected', selected, total)}</div>
       </div>
       <SearchFilterForm
         register={register}
