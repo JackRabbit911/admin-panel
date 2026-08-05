@@ -1,4 +1,4 @@
-type StrNum = string | number | undefined;
+type StrNum = string | number;
 export type Argv = StrNum[];
 export type GetText = (value: string | undefined, ...argv: Argv) => string;
 
