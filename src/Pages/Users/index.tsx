@@ -1,10 +1,10 @@
-import { useSearchFilterPagination } from '../../Reused/Paginator/hooks'
+import Table from './Table'
+import { getUsersUrl } from 'shared/constants'
 import { useTranslate } from 'shared/i18n/hooks'
 import Pagination from 'Reused/Paginator/Pagination'
 import SearchFilterForm from 'Reused/SearchFilterForm'
-import { getUsersUrl } from 'shared/constants';
-import type { User } from './types';
-import Table from './Table';
+import { useSearchFilterPagination } from '../../Reused/Paginator/hooks'
+import type { User } from './types'
 
 const Users = () => {
   const {
@@ -22,7 +22,6 @@ const Users = () => {
   const list: User[] = result?.list || []
   const total: number = result?.total || 0
   const selected: number = result?.selected || 0
-
   const __ = useTranslate()
 
   return (
