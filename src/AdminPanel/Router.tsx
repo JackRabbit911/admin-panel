@@ -4,6 +4,7 @@ import Pages from "Pages/Pages"
 import Tests from "Pages/Tests"
 import Users from "Pages/Users"
 import UserCmp from "Pages/User"
+import Error from "Reused/Error"
 
 const Router = () => {
   return (
@@ -19,7 +20,7 @@ const Router = () => {
         <Route path='works' element={'Works'} />
         <Route path='authors' element={'Authors'} />
       </Route>
-      <Route path='*' element={'404'} />
+      <Route path='*' element={<Error status={404} />} />
     </Routes>
   )
 }
