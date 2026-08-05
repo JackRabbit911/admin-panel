@@ -1,8 +1,25 @@
 import { DEFAULT_LANG, SUPPORTED_LANGS, defaultTranslateKeys, getTranslateUri, limit } from "./config";
 import type { TranslateType } from "./types";
 
-export const sprintf = (str: string, ...argv: any[]): string => !argv.length ? str :
-    sprintf(str = str.replace("%", argv.shift()), ...argv);
+export const sprintf = (format: string, ...args: Array<string | number>): string => {
+  let index = 0
+  
+  return format.replace(/%([sd])/g, (match, type) => {
+    // Если аргументов больше нет, возвращаем сам плейсхолдер
+    if (index >= args.length) {
+      return match; 
+    }
+
+    const value = args[index++]
+
+    if (type === 'd') {
+      const num = parseInt(String(value), 10)
+      return isNaN(num) ? '0' : String(num)
+    }
+
+    return String(value)
+  });
+}
 
 export const updateTranslate = (
     translate: TranslateType,
@@ -16,7 +33,7 @@ export const updateTranslate = (
         const n = keys.length + Object.keys(result).length - limit
 
         if (n > 0) {
-            keys.slice(0, n).forEach(key => delete translate[key]);
+            keys.slice(0, n).forEach(key => delete translate[key])
         }
     }
 
