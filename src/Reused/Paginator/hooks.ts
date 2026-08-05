@@ -6,6 +6,30 @@ import { useFilterSearchQuery } from "shared/api"
 import { useDebounce } from "shared/hooks/debounce"
 import { filterSchema, type FilterFormValues } from "./schema"
 
+// 1. Описываем структуру ошибки, которую возвращает именно ВАШ кастомный baseQuery
+interface CustomApiError {
+    status: number;
+    data: {
+        success: boolean;
+        error: Array<{
+            key: string;
+            msg: string;
+        }>;
+    };
+}
+
+// 2. Создаем собственный Type Guard для проверки структуры ошибки
+function isCustomApiError(error: unknown): error is CustomApiError {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        'status' in error &&
+        'data' in error &&
+        typeof (error as any).data === 'object' &&
+        (error as any).data !== null
+    );
+}
+
 export const useSearchFilterPagination = (url: string) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -18,6 +42,9 @@ export const useSearchFilterPagination = (url: string) => {
         register,
         watch,
         reset,
+        setValue,
+        setError,
+        clearErrors,
         formState: { errors },
     } = useForm<FilterFormValues>({
         resolver: zodResolver(filterSchema),
@@ -50,7 +77,9 @@ export const useSearchFilterPagination = (url: string) => {
 
     const handleReset = () => {
         reset()
-        setSearchParams({ page: '1', limit: String(limit) })
+        clearErrors()
+        setValue('search', '')
+        setSearchParams({ page: '1', limit: String(limit), search: '' })
     }
 
     useEffect(() => {
@@ -77,13 +106,31 @@ export const useSearchFilterPagination = (url: string) => {
 
     const hasErrors = !!errors.search
 
-    const { data, isFetching } = useFilterSearchQuery(
+    const { data, isFetching, error } = useFilterSearchQuery(
         { url, page, limit, search: debouncedSearch, filter: currentFilter },
         {
             refetchOnMountOrArgChange: true,
             skip: hasErrors,
         }
-    );
+    )
+
+    // 3. Используем кастомный Type Guard в useEffect
+    useEffect(() => {
+        if (error && isCustomApiError(error) && error.status === 422) {
+            const errorList = error.data.error;
+
+            if (Array.isArray(errorList)) {
+                errorList.forEach((err) => {
+                    const fieldKey = err.key as keyof FilterFormValues;
+                    
+                    setError(fieldKey, {
+                        type: "server",
+                        message: err.msg,
+                    });
+                });
+            }
+        }
+    }, [error, setError])
 
     const result = data?.result
 
