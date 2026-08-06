@@ -1,16 +1,22 @@
 type Props = {
+  total: number;
   perPages?: number[];
   limit?: number;
   setLimit: (Limit: number) => void;
 }
 
 const PerPage = ({
+  total,
   perPages = [24, 60, 120],
   limit,
   setLimit,
 }: Props) => {
   const getClassName = (count: number) =>
     `join-item btn btn-sm ${limit === count ? 'btn-active' : ''}`
+
+  if (total <= perPages[0]) {
+    return null
+  }
 
   return (
     <div className="join">
