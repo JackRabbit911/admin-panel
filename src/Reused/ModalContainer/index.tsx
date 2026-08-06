@@ -1,88 +1,97 @@
-import { useEffect, useRef, useState } from "react";
-import { useAppSelector } from "shared/store/hooks";
-import { useCloseDirty } from "./hooks";
-import Loader from "./Loader";
-import DirtyConfirm from "./DirtyConfirm";
-import { MODAL_REGISTRY } from "shared/modalRegistry";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react"
+import Loader from "./Loader"
+import { useCloseDirty } from "./hooks"
+import DirtyConfirm from "./DirtyConfirm"
+import { useAppSelector } from "shared/store/hooks"
+import { MODAL_REGISTRY } from "shared/modalRegistry"
 
 const ModalContainer = () => {
   const { type, props, isGlobalLoading } = useAppSelector((state) => state.modal)
+  
   const dialogRef = useRef<HTMLDialogElement>(null)
   const isDirtyRef = useRef<boolean>(false)
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
   const pendingActionRef = useRef<(() => void) | null>(null)
 
+  // 1. Извлекаем конфигурацию стабильно
+  const currentModalConfig = useMemo(() => {
+    return type ? MODAL_REGISTRY[type] : null
+  }, [type])
+
+  // 2. Стабилизируем ссылку на функцию, чтобы дочерний компонент не перерендеривался
+  const setDirty = useCallback((isDirty: boolean) => {
+    isDirtyRef.current = isDirty
+  }, [])
+
+  // 3. Синхронизация состояния с нативным <dialog>
   useEffect(() => {
     const dialog = dialogRef.current
-    if (!dialog) {
-      return
-    }
+    if (!dialog) return
 
-    if (type || isGlobalLoading) {
-      if (!dialog.open) dialog.showModal()
+    // Проверяем наличие конфигурации, чтобы не открывать пустой диалог
+    const hasContent = type && currentModalConfig
+
+    if (hasContent || isGlobalLoading) {
+      if (!dialog.open) {
+        dialog.showModal()
+      }
     } else {
-      if (dialog.open) dialog.close()
+      if (dialog.open) {
+        dialog.close()
+      }
       isDirtyRef.current = false
-      setShowConfirm(false);
+      setShowConfirm(false)
       pendingActionRef.current = null
     }
-  }, [type, isGlobalLoading])
+  }, [type, currentModalConfig, isGlobalLoading])
 
-  const {
-    handleNativeCancel,
-    handleCloseRequest
-  } = useCloseDirty(isDirtyRef, pendingActionRef, setShowConfirm)
+  const { handleNativeCancel, handleCloseRequest } = useCloseDirty(
+    isDirtyRef, 
+    pendingActionRef, 
+    setShowConfirm
+  )
 
-  if (!type && !isGlobalLoading) {
-    return null
-  }
-
-  const currentModalConfig = type ? MODAL_REGISTRY[type] : null;
-
-  if (!currentModalConfig) {
-    return null
-  }
-
-  const ActiveComponent = currentModalConfig?.component;
-  const maxWidth = currentModalConfig?.maxWidth || 'max-w-md';
-  const responsiveStyle = currentModalConfig?.responsiveStyle || '';
+  // Получаем параметры стиля (компонент ВСЕГДА рендерит обертку, чтобы избежать скачков DOM)
+  const ActiveComponent = currentModalConfig?.component
+  const maxWidth = currentModalConfig?.maxWidth || 'max-w-md'
+  const responsiveStyle = currentModalConfig?.responsiveStyle || ''
 
   return (
-    <dialog
-      ref={dialogRef}
-      className={`modal backdrop:blur-xs backdrop:brightness-75 transition-all duration-300 ${responsiveStyle}`}
+    <dialog 
+      ref={dialogRef} 
+      className={`modal backdrop:blur-xs backdrop:brightness-75 transition-all duration-300 ${responsiveStyle}`} 
       onCancel={handleNativeCancel}
     >
       {isGlobalLoading && <Loader />}
-
-      {type && (
+      
+      {type && ActiveComponent && (
         <div className={`modal-box w-full bg-base-100 p-4 shadow-lg border border-base-200/50 rounded-sm transition-all ${maxWidth}`}>
-          <button
-            onClick={handleCloseRequest}
-            type="button"
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10"
+          <button 
+            onClick={handleCloseRequest} 
+            type="button" 
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10" 
             disabled={isGlobalLoading}
           >
             ✕
           </button>
+          
           {showConfirm && (
-            <DirtyConfirm
-              isDirtyRef={isDirtyRef}
-              pendingActionRef={pendingActionRef}
-              setShowConfirm={setShowConfirm}
+            <DirtyConfirm 
+              isDirtyRef={isDirtyRef} 
+              pendingActionRef={pendingActionRef} 
+              setShowConfirm={setShowConfirm} 
             />
           )}
-          {ActiveComponent && (
-            <ActiveComponent
-              props={props}
-              onClose={handleCloseRequest}
-              setDirty={(isDirty: boolean) => {
-                isDirtyRef.current = isDirty;
-              }}
-            />
-          )}
+          
+          {/* Передаем стабильную функцию setDirty */}
+          <ActiveComponent 
+            props={props} 
+            onClose={handleCloseRequest} 
+            setDirty={setDirty} 
+          />
         </div>
       )}
+      
       <div className="modal-backdrop" onClick={handleCloseRequest}>
         <button type="button">close</button>
       </div>
