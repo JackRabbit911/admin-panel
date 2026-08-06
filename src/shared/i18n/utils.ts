@@ -2,23 +2,27 @@ import { DEFAULT_LANG, SUPPORTED_LANGS, defaultTranslateKeys, getTranslateUri, l
 import type { TranslateType } from "./types";
 
 export const sprintf = (format: string, ...args: Array<string | number>): string => {
-  let index = 0
-  
-  return format.replace(/%([sd])/g, (match, type) => {
-    // Если аргументов больше нет, возвращаем сам плейсхолдер
-    if (index >= args.length) {
-      return match; 
+    if (args.length < 1) {
+        return format
     }
+    
+    let index = 0
 
-    const value = args[index++]
+    return format.replace(/%([sd])/g, (match, type) => {
+        // Если аргументов больше нет, возвращаем сам плейсхолдер
+        if (index >= args.length) {
+            return match;
+        }
 
-    if (type === 'd') {
-      const num = parseInt(String(value), 10)
-      return isNaN(num) ? '0' : String(num)
-    }
+        const value = args[index++]
 
-    return String(value)
-  });
+        if (type === 'd') {
+            const num = parseInt(String(value), 10)
+            return isNaN(num) ? '0' : String(num)
+        }
+
+        return String(value)
+    });
 }
 
 export const updateTranslate = (
