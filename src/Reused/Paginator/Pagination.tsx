@@ -27,6 +27,7 @@ const Pagination = ({ total, page, limit, setPage, setLimit }: Props) => {
         setPage={onSetPage}
       />
       <PerPage
+        total={total}
         limit={limit}
         setLimit={onSetLimit}
       />
