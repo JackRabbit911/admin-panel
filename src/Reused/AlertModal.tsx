@@ -1,6 +1,3 @@
-// Внутри modalSlice.ts:
-// ALERT: { title: string; message: string; type: 'info' | 'success' | 'warning' }
-
 import { useTranslate } from 'shared/i18n/hooks';
 import type { ModalPropsMap } from 'shared/store/modalSlice'
 
@@ -9,7 +6,7 @@ type Props = {
   onClose: () => void;
 }
 
-const AlertModal = ({ props, onClose }: Props) => {
+const AlertModal = ({ props: {title = 'Yes!', type = 'success', message}, onClose }: Props) => {
   const __ = useTranslate()
 
   const alertStyles = {
@@ -19,12 +16,12 @@ const AlertModal = ({ props, onClose }: Props) => {
   }
 
   return (
-    <div className={`border p-4 rounded-sm flex flex-col gap-3 ${alertStyles[props.type]}`}>
+    <div className={`border p-4 rounded-sm flex flex-col gap-3 ${alertStyles[type]}`}>
       <h3 className="text-lg font-bold flex items-center gap-2">
-        {props.type === 'success' && '✓'} 
-        {__(props.title)}
+        {type === 'success' && '✓'} 
+        {__(title)}
       </h3>
-      <p className="text-sm text-base-content/80">{__(props.message)}</p>
+      <p className="text-sm text-base-content/80">{__(message)}</p>
       <div className="modal-action mt-2">
         <button className="btn btn-sm btn-outline" onClick={onClose}>
           {__('Close')}
