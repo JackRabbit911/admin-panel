@@ -8,6 +8,7 @@ import { logout, setToken } from 'shared/store/tokenSlice'
 import type { RootState } from 'shared/store'
 import type { ApiResponse } from 'shared/types'
 import { setStatus } from 'shared/store/statusSlice'
+import { closeModal } from 'shared/store/modalSlice'
 
 const { protocol, hostname } = window.location
 export const host = `${protocol}//${hostname}`
@@ -73,6 +74,7 @@ export const myBaseQuery = (): BaseQueryFn<
             }
         } else if (result.error && result.error.status !== 422) {
             api.dispatch(setStatus(result.error.status))
+            api.dispatch(closeModal())
         }
     }
 
