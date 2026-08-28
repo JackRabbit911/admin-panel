@@ -8,7 +8,7 @@ export const api = createApi({
         post: builder.mutation({
             query: (arg) => ({
                 url: arg.url,
-                method: 'POST',
+                method: arg.method || 'POST',
                 body: arg.body,
             }),
         }),
