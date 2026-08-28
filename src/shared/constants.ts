@@ -6,6 +6,13 @@ export const getSidebarUrl = '/home/sidebar'
 export const getDashboardUrl = '/home/dashboard'
 export const getPagesUrl = '/home/pages'
 export const getUsersUrl = '/users'
+export const getTablesUrl = '/dev/tables'
+export const dumpDbUrl = '/dev/export'
+export const getDumpFileName = '/dev/filename'
+export const getTruncateUrl = '/dev/truncate'
+export const getDropTablesUrl = '/dev/drop'
+export const getDumpFilesUrl = '/dev/dumps'
+export const sendDumpFileUrl = '/dev/import'
 
 //admin permissions
 export const P = {
