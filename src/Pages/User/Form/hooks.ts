@@ -25,9 +25,7 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
 
   const { handleSubmit, formState: { isDirty } } = methods
 
-  // Единая, безопасная синхронизация флага "грязной" формы
   useEffect(() => {
-    // Используем requestAnimationFrame, чтобы не блокировать текущий кадр рендера формы
     const frameId = requestAnimationFrame(() => {
       setDirty(isDirty)
     })
@@ -38,13 +36,12 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
   }, [isDirty, setDirty])
 
   const onSubmit = handleSubmit(async (data: MaskFormValues) => {
-    try {
       const newRole = bitsToNumber(data.bits)
       
       await save({
         url: [getUsersUrl, String(user.id), 'save'].join('/'),
         body: { user_id: user.id, role: newRole }
-      }).unwrap() // Используем .unwrap(), если нужно поймать ошибку в catch
+      })
 
       const args = { url: [getUsersUrl, user.id].join('/') }
       
@@ -58,9 +55,6 @@ export const useBitMask = (user: User, setDirty: SetDirty) => {
 
       setDirty(false)
       setIsAlert(true)
-    } catch (error) {
-      console.error('Error saving bitmask:', error)
-    }
   })
 
   return { methods, isAlert, isLoading, onSubmit, isDirty }
