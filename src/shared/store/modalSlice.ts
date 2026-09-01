@@ -23,16 +23,12 @@ export type ModalPropsMap = {
 
 interface ModalState {
   type: ModalType | null;
-  props: ModalPropsMap[ModalType] | null;
-  isGlobalLoading: boolean;
-  loadingMessage: string | null;
+  isLoading: boolean;
 }
 
 const initialState: ModalState = {
   type: null,
-  props: null,
-  isGlobalLoading: false,
-  loadingMessage: null,
+  isLoading: false,
 };
 
 const modalSlice = createSlice({
@@ -41,52 +37,30 @@ const modalSlice = createSlice({
   reducers: {
     openModal: <T extends ModalType>(
       state: ModalState,
-      action: PayloadAction<{ type: T; props: ModalPropsMap[T] }>
+      action: PayloadAction<{ type: T; }>
     ) => {
       state.type = action.payload.type;
-      state.props = action.payload.props as any; 
     },
     closeModal: (state) => {
       state.type = null
-      state.props = null
     },
-    setGlobalLoading: (
-      state, 
-      action: PayloadAction<boolean | { isActive: boolean; message?: string }>
+    setLoading: (
+      state,
+      action: PayloadAction<boolean>
+      // state, 
+      // action: PayloadAction<boolean | { isActive: boolean; message?: string }>
     ) => {
-      if (typeof action.payload === 'boolean') {
-        state.isGlobalLoading = action.payload
-        if (!action.payload) state.loadingMessage = null
-      } else {
-        state.isGlobalLoading = action.payload.isActive;
-        state.loadingMessage = action.payload.message || null
-      }
+      state.isLoading = action.payload
+      // if (typeof action.payload === 'boolean') {
+      //   state.isGlobalLoading = action.payload
+      //   if (!action.payload) state.loadingMessage = null
+      // } else {
+      //   state.isGlobalLoading = action.payload.isActive;
+      //   state.loadingMessage = action.payload.message || null
+      // }
     },
-  //   openModal: <T extends ModalType>(
-  //     state: ModalState,
-  //     action: PayloadAction<{ type: T; props: ModalPropsMap[T] }>
-  //   ) => {
-  //     state.type = action.payload.type
-  //     state.props = action.payload.props
-  //   },
-  //   closeModal: (state) => {
-  //     state.type = null
-  //     state.props = null
-  //   },
-  //   setGlobalLoading: (
-  //     state, 
-  //     action: PayloadAction<boolean | { isActive: boolean; message?: string }>
-  //   ) => {
-  //     if (typeof action.payload === 'boolean') {
-  //       state.isGlobalLoading = action.payload
-  //       if (!action.payload) state.loadingMessage = null // Сбрасываем текст при выключении
-  //     } else {
-  //       state.isGlobalLoading = action.payload.isActive;
-  //       state.loadingMessage = action.payload.message || null
-  //     }
-  //   },
   },
 })
 
-export const { openModal, closeModal, setGlobalLoading } = modalSlice.actions
+export const { openModal, closeModal, setLoading } = modalSlice.actions
 export default modalSlice.reducer
