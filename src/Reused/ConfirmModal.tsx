@@ -1,8 +1,8 @@
-import { usePostMutation } from "shared/api";
-import { useTranslate } from "shared/i18n/hooks";
-import { actionResolve } from "Pages/Tests/utils";
-import { useAppDispatch } from "shared/store/hooks";
-import { openModal, type ModalPropsMap } from "shared/store/modalSlice";
+import { usePostMutation } from "shared/api"
+import { useTranslate } from "shared/i18n/hooks"
+import { actionResolve } from "Pages/Tests/utils"
+import { ModalUtils } from "./ModalContainer/utils"
+import type { ModalPropsMap } from "shared/store/modalSlice"
 
 type Props = {
   props: ModalPropsMap['CONFIRM'];
@@ -10,7 +10,6 @@ type Props = {
 }
 
 const ConfirmModal = ({ props, onClose }: Props) => {
-  const dispatch = useAppDispatch()
   const { title, message, url, method, messageSuccess } = actionResolve(props.actionType || 'dump')
   const [save] = usePostMutation()
   const __ = useTranslate()
@@ -23,15 +22,8 @@ const ConfirmModal = ({ props, onClose }: Props) => {
       }).unwrap()
   
       onClose();
-  
-      dispatch(
-        openModal({
-          type: 'ALERT',
-          props: {
-            message: messageSuccess,
-          },
-        })
-      )
+
+      ModalUtils.open('ALERT', { message: messageSuccess })
   };
   
   return (
