@@ -1,5 +1,5 @@
 import { type Middleware, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit'
-import { setGlobalLoading } from './modalSlice'
+import { setLoading } from './modalSlice'
 
 let activeRequestsCount = 0
 
@@ -8,7 +8,7 @@ export const LoadingMiddleware: Middleware = ({ dispatch }) => (next) => (action
         if (action.type.startsWith('api/')) {
             if (isPending(action)) {
                 if (activeRequestsCount === 0) {
-                    dispatch(setGlobalLoading(true))
+                    dispatch(setLoading(true))
                 }
                 activeRequestsCount++;
             }
@@ -18,7 +18,7 @@ export const LoadingMiddleware: Middleware = ({ dispatch }) => (next) => (action
 
                 if (activeRequestsCount <= 0) {
                     activeRequestsCount = 0
-                    dispatch(setGlobalLoading(false))
+                    dispatch(setLoading(false))
                 }
             }
         }
