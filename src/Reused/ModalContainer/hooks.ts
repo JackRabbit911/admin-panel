@@ -1,5 +1,5 @@
-import { closeModal } from "shared/store/modalSlice"
-import { useAppDispatch, useAppSelector } from "shared/store/hooks"
+import { closeModalFn } from "./utils"
+import { useAppSelector } from "shared/store/hooks"
 
 export const useCloseDirty = (
   isDirtyRef: React.RefObject<boolean>,
@@ -7,11 +7,10 @@ export const useCloseDirty = (
   setShowConfirm: React.Dispatch<React.SetStateAction<boolean>>,
 
 ) => {
-  const dispatch = useAppDispatch()
-  const { isGlobalLoading } = useAppSelector((state) => state.modal)
+  const { isLoading } = useAppSelector((state) => state.modal)
 
   const processCloseRequest = (proceedAction: () => void) => {
-    if (isGlobalLoading) {
+    if (isLoading) {
       return
     }
 
@@ -26,13 +25,13 @@ export const useCloseDirty = (
   const handleNativeCancel = (e: React.SyntheticEvent<HTMLDialogElement>) => {
     e.preventDefault()
     processCloseRequest(() => {
-      dispatch(closeModal())
+      closeModalFn()
     })
   }
 
   const handleCloseRequest = () => {
     processCloseRequest(() => {
-      dispatch(closeModal())
+      closeModalFn()
     })
   }
 
