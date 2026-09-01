@@ -1,7 +1,5 @@
-import { useAppDispatch } from 'shared/store/hooks';
-import { openModal } from 'shared/store/modalSlice';
 import type { ActionType } from './utils';
-import { useModal } from 'Reused/ModalContainer/hook';
+import { ModalUtils } from 'Reused/ModalContainer/utils';
 
 type Props = {
   tables: string[];
@@ -10,21 +8,14 @@ type Props = {
 }
 
 export const TableActions = ({ tables, isSubmitting, isDisabled }: Props) => {
-  const dispatch = useAppDispatch()
   const isBtnDisabled = isSubmitting || isDisabled
 
-  const onDump = useModal('BACKUP', { tables })
-
+  const onDump = () => ModalUtils.open('BACKUP', { tables })
   const onAction = (action: ActionType) => {
-    dispatch(
-      openModal({
-        type: 'CONFIRM',
-        props: {
-          payload: { tables: tables },
-          actionType: action,
-        },
-      })
-    )
+    ModalUtils.open('CONFIRM', {
+      payload: { tables: tables },
+      actionType: action,
+    })
   }
 
   return (
