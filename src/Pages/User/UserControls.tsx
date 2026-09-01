@@ -1,8 +1,8 @@
-import type { GetText } from "shared/i18n/types"
-import { openModal } from "shared/store/modalSlice";
+import { useAppSelector } from "shared/store/hooks"
 import { getAdminBtnLabel, getDisabled } from "./utils"
-import { useAppDispatch, useAppSelector } from "shared/store/hooks"
+import { ModalUtils } from "Reused/ModalContainer/utils";
 import type { User } from "Pages/Users/types";
+import type { GetText } from "shared/i18n/types"
 
 type Props = {
   __: GetText;
@@ -10,23 +10,15 @@ type Props = {
 }
 
 const UserControls = ({ __, user }: Props) => {
-  const dispatch = useAppDispatch()
   const adminRole = useAppSelector((state) => state.user.user?.role)
   const userRole = Number(user?.role)
   const { disabledAdmin, disabledBan, disabledRemove } = getDisabled(+(adminRole ?? 0), userRole)
   const adminBtnLabel = getAdminBtnLabel(userRole)
 
-   const handleAdminClick = () => {
-    dispatch(
-      openModal({
-        type: 'BITMASK',
-        props: {
-          adminRole: +(adminRole ?? 0),
-          user: user,
-        },
-      })
-    )
-  }
+  const handleAdminClick = () => ModalUtils.open('BITMASK', {
+    adminRole: +(adminRole ?? 0),
+    user: user,
+  })
 
   return (
     <div className="w-full flex flex-col sm:flex-row sm:justify-center gap-3 mt-4">
