@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { getObjectProp } from "../shared/utils";
+import { ObjectUtils } from "shared/utils";
 import { useTranslate } from "../shared/i18n/hooks";
+import { ErrorMessage } from "@hookform/error-message";
 
 type Props = {
   fieldName: string;
@@ -16,7 +16,7 @@ const TextInput = ({
   fieldName, label, optional, placeholder, type = 'text', max
 }: Props) => {
   const { register, formState: { errors } } = useFormContext();
-  const err = getObjectProp(errors, fieldName)
+  const err = ObjectUtils.getProp(errors, fieldName)
   const __ = useTranslate()
 
   if (errors[fieldName]) {
