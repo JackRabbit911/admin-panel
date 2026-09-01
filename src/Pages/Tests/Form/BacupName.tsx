@@ -40,8 +40,6 @@ const BackupName = ({ props, onClose }: Props) => {
 
   const __ = useTranslate()
 
-  console.log(data)
-
   const onSubmit: SubmitHandler<FileName> = async (formData) => {
     try {
       const arg = {
@@ -76,12 +74,6 @@ const BackupName = ({ props, onClose }: Props) => {
       // }
     }
   }
-
-  console.log(filename)
-
-  // useEffect(() => {
-  //   setFile(filename)
-  // }, [filename])
 
   if (!filename || isLoading || isFetching) {
     return null
