@@ -2,11 +2,15 @@ import Sandwich from "./Sandwich"
 import { host } from "shared/api/baseQuery"
 import { logoutUrl } from "shared/constants"
 import { useTranslate } from "shared/i18n/hooks"
+import { resetUser } from "shared/store/userSlice"
 import { useAppSelector } from "shared/store/hooks"
+import { useAppDispatch } from "shared/store/hooks"
+import { resetToken } from "shared/store/tokenSlice"
 import { useDeleteMutation, useLazyGetQuery } from "shared/api"
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.user)
+  const dispatch = useAppDispatch()
   const [exit] = useDeleteMutation()
   const [trigger] = useLazyGetQuery()
   const __ = useTranslate()
@@ -18,7 +22,9 @@ const Navbar = () => {
   }
 
   const onLogout = (url: string) => {
-    exit({ url: url })
+    exit({ url })
+    dispatch(resetToken())
+    dispatch(resetUser())
     window.location.href = `${host}/auth`
   }
 
