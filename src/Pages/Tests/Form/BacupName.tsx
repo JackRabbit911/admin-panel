@@ -4,11 +4,10 @@ import { FormProvider, useForm, type SubmitHandler } from "react-hook-form"
 
 import TextInput from "Reused/TextInput"
 import { useTranslate } from "shared/i18n/hooks"
-import { useAppDispatch } from "shared/store/hooks"
+import { openModalFn } from "Reused/ModalContainer/utils"
 import { useGetQuery, usePostMutation } from "shared/api"
 import { dumpDbUrl, getDumpFileName } from "shared/constants"
-import { openModal, type ModalPropsMap } from "shared/store/modalSlice"
-// import { useEffect, useState } from "react"
+import type { ModalPropsMap } from "shared/store/modalSlice"
 
 const fileNameSch = z.object({
   filename: z.string().regex(/^[a-zA-Z0-9.()_-]+$/, {
@@ -26,9 +25,7 @@ type Props = {
 const BackupName = ({ props, onClose }: Props) => {
   const { data, isLoading, isFetching, refetch } = useGetQuery({ url: getDumpFileName })
   const filename = data ? data?.result : null
-  // const [file, setFile] = useState('')
   const [send] = usePostMutation()
-  const dispatch = useAppDispatch()
 
   const methods = useForm<FileName>({
     resolver: zodResolver(fileNameSch),
@@ -54,15 +51,7 @@ const BackupName = ({ props, onClose }: Props) => {
 
       if (response.success) {
         onClose();
-
-        dispatch(
-          openModal({
-            type: 'ALERT',
-            props: {
-              message: __('Dump was created successfully'),
-            },
-          })
-        )
+        openModalFn('ALERT', { message: __('Dump was created successfully') })
       } else {
         console.log(response)
       }
@@ -90,7 +79,6 @@ const BackupName = ({ props, onClose }: Props) => {
           label="Archive file name"
           placeholder={__('Enter the bacup file name')}
         />
-        {/* <input type="text" className="input w-full" {...methods.register('filename')} defaultValue={filename} /> */}
         <div className="flex justify-between gap-2 my-4">
           <button
             type="button"
