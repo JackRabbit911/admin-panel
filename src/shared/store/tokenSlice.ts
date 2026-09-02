@@ -11,11 +11,11 @@ const tokenSlice = createSlice({
         setToken: (state, action: PayloadAction<string>) => {
             state.bearer = action?.payload
         },
-        logout: (state) => {
+        resetToken: (state) => {
             state.bearer = ''
         },
     },
 })
 
-export const { setToken, logout } = tokenSlice.actions
+export const { setToken, resetToken } = tokenSlice.actions
 export default tokenSlice.reducer
