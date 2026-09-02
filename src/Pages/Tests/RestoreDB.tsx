@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { useTranslate } from "shared/i18n/hooks";
 import { useGetQuery, usePostMutation } from "shared/api";
 import { getDumpFilesUrl, sendDumpFileUrl } from "shared/constants";
-import { useAppDispatch } from "shared/store/hooks";
-import { openModal } from "shared/store/modalSlice";
+import { openModalFn } from "Reused/ModalContainer/utils";
 
 type File = {
   filename: string;
@@ -24,7 +23,6 @@ const RestoreDB = () => {
   const { data, refetch } = useGetQuery(getDumpFilesUrl)
   const files = data?.result ? data?.result : []
   const [send] = usePostMutation()
-  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -48,14 +46,7 @@ const RestoreDB = () => {
     }).unwrap()
 
     if (data.success) {
-      dispatch(
-        openModal({
-          type: 'ALERT',
-            props: {
-              message: data?.result,
-            },
-        })
-      )
+      openModalFn('ALERT', { message: data?.result })
     }
   }
 
