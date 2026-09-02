@@ -1,5 +1,5 @@
 import type { ActionType } from './utils';
-import { ModalUtils } from 'Reused/ModalContainer/utils';
+import { openModalFn } from 'Reused/ModalContainer/utils';
 
 type Props = {
   tables: string[];
@@ -10,9 +10,9 @@ type Props = {
 export const TableActions = ({ tables, isSubmitting, isDisabled }: Props) => {
   const isBtnDisabled = isSubmitting || isDisabled
 
-  const onDump = () => ModalUtils.open('BACKUP', { tables })
+  const onDump = () =>openModalFn('BACKUP', { tables })
   const onAction = (action: ActionType) => {
-    ModalUtils.open('CONFIRM', {
+   openModalFn('CONFIRM', {
       payload: { tables: tables },
       actionType: action,
     })
