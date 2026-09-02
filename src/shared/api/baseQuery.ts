@@ -2,13 +2,14 @@ import { Mutex } from 'async-mutex'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 
+import { resetUser } from 'shared/store/userSlice'
+import { setStatus } from 'shared/store/statusSlice'
+import { closeModal } from 'shared/store/modalSlice'
 import { authUrl, refreshUrl } from 'shared/constants'
-import { logout, setToken } from 'shared/store/tokenSlice'
+import { resetToken, setToken } from 'shared/store/tokenSlice'
 
 import type { RootState } from 'shared/store'
 import type { ApiResponse } from 'shared/types'
-import { setStatus } from 'shared/store/statusSlice'
-import { closeModal } from 'shared/store/modalSlice'
 
 const { protocol, hostname } = window.location
 export const host = `${protocol}//${hostname}`
@@ -62,7 +63,8 @@ export const myBaseQuery = (): BaseQueryFn<
                         api.dispatch(setToken(data.result))
                         result = await baseQuery(args, api, extraOptions)
                     } else {
-                        api.dispatch(logout())
+                        api.dispatch(resetToken())
+                        api.dispatch(resetUser())
                         window.location.href = `${host}/auth`
                     }
                 } finally {
