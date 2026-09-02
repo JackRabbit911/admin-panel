@@ -1,6 +1,6 @@
 import { useAppSelector } from "shared/store/hooks"
 import { getAdminBtnLabel, getDisabled } from "./utils"
-import { ModalUtils } from "Reused/ModalContainer/utils";
+import { openModalFn } from "Reused/ModalContainer/utils";
 import type { User } from "Pages/Users/types";
 import type { GetText } from "shared/i18n/types"
 
@@ -15,7 +15,7 @@ const UserControls = ({ __, user }: Props) => {
   const { disabledAdmin, disabledBan, disabledRemove } = getDisabled(+(adminRole ?? 0), userRole)
   const adminBtnLabel = getAdminBtnLabel(userRole)
 
-  const handleAdminClick = () => ModalUtils.open('BITMASK', {
+  const handleAdminClick = () => openModalFn('BITMASK', {
     adminRole: +(adminRole ?? 0),
     user: user,
   })
