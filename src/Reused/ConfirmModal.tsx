@@ -1,7 +1,7 @@
 import { usePostMutation } from "shared/api"
 import { useTranslate } from "shared/i18n/hooks"
 import { actionResolve } from "Pages/Tests/utils"
-import { ModalUtils } from "./ModalContainer/utils"
+import { openModalFn } from "./ModalContainer/utils"
 import type { ModalPropsMap } from "shared/store/modalSlice"
 
 type Props = {
@@ -23,7 +23,7 @@ const ConfirmModal = ({ props, onClose }: Props) => {
   
       onClose();
 
-      ModalUtils.open('ALERT', { message: messageSuccess })
+      openModalFn('ALERT', { message: messageSuccess })
   };
   
   return (
