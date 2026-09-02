@@ -7,14 +7,14 @@ import { closeModal as closeModalSlice, openModal, type ModalPropsMap, type Moda
  * Инкапсулирует хранилище props, чтобы исключить прямую мутацию извне.
  */
 export class ModalUtils {
-  private static _props: Record<string, any> = {};
+  private static _props: Record<string, any> = {}
 
   /**
    * Возвращает текущие props модального окна.
    * Рекомендуется вызывать в компонентах вместо прямого импорта `modalProps`.
    */
   static getProps(): Record<string, any> {
-    return this._props;
+    return this._props
   }
 
   /**
@@ -30,17 +30,18 @@ export class ModalUtils {
     type: T,
     props: ModalPropsMap[T] = {} as ModalPropsMap[T],
   ): void {
-    ObjectUtils.replaceContent(this._props, props);
-    store.dispatch(openModal({ type }));
+    ObjectUtils.replaceContent(this._props, props)
+    store.dispatch(openModal({ type }))
   }
 
   /**
    * Закрывает модальное окно и очищает props.
    */
   static close(): void {
-    ObjectUtils.clear(this._props);
-    store.dispatch(closeModalSlice());
+    ObjectUtils.clear(this._props)
+    store.dispatch(closeModalSlice())
   }
 }
 
-export const closeModalFn = ModalUtils.close.bind(ModalUtils);
+export const openModalFn = ModalUtils.open.bind(ModalUtils)
+export const closeModalFn = ModalUtils.close.bind(ModalUtils)
