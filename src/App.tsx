@@ -1,6 +1,4 @@
 import { useEffect } from "react"
-import { useLocation } from "react-router"
-
 import AdminPanel from "AdminPanel"
 import { useGetQuery } from "shared/api"
 import { getUserByJWT } from "shared/utils"
@@ -9,11 +7,9 @@ import { setUser } from "shared/store/userSlice"
 import ModalContainer from "Reused/ModalContainer"
 import { setToken } from "shared/store/tokenSlice"
 import { useAppDispatch } from "shared/store/hooks"
-import TranslateProvider from "shared/i18n/TranslateProvider"
 import Error from "Reused/Error"
 
 function App() {
-  const location = useLocation()
   const { data, isError, error } = useGetQuery(authUrl)
   const dispatch = useAppDispatch()
 
@@ -39,10 +35,10 @@ function App() {
   }
 
   return (
-    <TranslateProvider deps={[location]}>
+    <>
       {token && <AdminPanel />}
       <ModalContainer />
-    </TranslateProvider>
+    </>
   )
 }
 
