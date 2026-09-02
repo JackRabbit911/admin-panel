@@ -40,7 +40,7 @@ const TextInput = ({
       <legend className="fieldset-legend flex justify-between w-full">
         {__(label)}
         {alert}
-        <span className="fieldset-label">{__(optional)}</span>
+        {optional && <span className="fieldset-label">{__(optional)}</span>}
       </legend>
       <input
         type={type}
