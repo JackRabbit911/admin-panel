@@ -1,7 +1,10 @@
-import { useAppSelector } from "shared/store/hooks";
+// import { useAppSelector } from "shared/store/hooks";
+
+import { useTranslate } from "shared/i18n/hooks"
 
 const Loader = () => {
-  const { loadingMessage } = useAppSelector((state) => state.modal)
+  // const { loadingMessage } = useAppSelector((state) => state.modal)
+  const __ = useTranslate()
 
   return (
     <div className="absolute inset-0 z-99 flex flex-col items-center justify-center bg-black/70 backdrop-blur-xs pointer-events-auto select-none">
@@ -17,7 +20,7 @@ const Loader = () => {
         </svg>
 
         <p className="text-sm font-medium text-slate-200">
-          {loadingMessage || 'Loading...'}
+          {__('Loading')}...
         </p>
       </div>
     </div>
