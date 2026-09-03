@@ -1,5 +1,9 @@
-import type { ActionType } from './utils';
+import { Link } from 'react-router';
+
+import { useTranslate } from 'shared/i18n/hooks';
 import { openModalFn } from 'Reused/ModalContainer/utils';
+
+import type { ActionType } from './utils';
 
 type Props = {
   tables: string[];
@@ -9,6 +13,7 @@ type Props = {
 
 export const TableActions = ({ tables, isSubmitting, isDisabled }: Props) => {
   const isBtnDisabled = isSubmitting || isDisabled
+  const __ = useTranslate()
 
   const onDump = () =>openModalFn('BACKUP', { tables })
   const onAction = (action: ActionType) => {
@@ -20,6 +25,13 @@ export const TableActions = ({ tables, isSubmitting, isDisabled }: Props) => {
 
   return (
     <div className="card-actions justify-center gap-2 mt-6 pt-4 border-t border-base-200">
+      <button
+        type="button"
+        className="btn btn-success btn-outline">
+          <Link to='import'>
+            {__('Restore')}
+          </Link>
+        </button>
       <button
         type="button"
         disabled={isBtnDisabled}
