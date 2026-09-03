@@ -62,7 +62,7 @@ const RestoreDB = () => {
         <h2 className="text-xl font-bold mb-4">
           {__('Chioce dump file')}
         </h2>
-        <Link to="/tests">
+        <Link to="/develop/database">
           <span className="link">
             К таблицам
           </span>
