@@ -1,14 +1,15 @@
-import type { SideItem } from "./types";
 import Item from "./Item";
+import Icon from "Reused/Icon";
+import type { IMenuItem } from "./types";
 
 type Props = {
   onClose: () => void;
-  item: SideItem;
+  item: IMenuItem;
   prefix?: string;
 }
 
 const Submenu = ({ onClose, item, prefix = '' }: Props) => {
-  const { label, to, disabled } = item
+  const { label, to, icon, disabled } = item
   const myPrefix = Boolean(prefix) ? [prefix, to].join('/') : to
 
   return (
@@ -16,7 +17,10 @@ const Submenu = ({ onClose, item, prefix = '' }: Props) => {
       className={disabled ? "disabled pointer-events-none opacity-50" : ""}
     >
       <details>
-        <summary>{label}</summary>
+        <summary>
+          {icon && <Icon name={icon} size={18} strokeWidth={1}/>}
+          {label}
+        </summary>
         <ul>
           {(item?.sub || []).map(
             (subItem, key) => !subItem?.sub ? (
@@ -31,7 +35,7 @@ const Submenu = ({ onClose, item, prefix = '' }: Props) => {
                 key={key + subItem.label}
                 onClose={onClose}
                 item={subItem}
-                prefix={myPrefix} 
+                prefix={myPrefix}
               />
             )
           )}

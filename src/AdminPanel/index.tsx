@@ -28,7 +28,7 @@ const AdminPanel = () => {
     dispatch(resetStatus())
     setIsShown(false)
   }
-  
+
   useEffect(() => {
     if (token) {
       const user = getUserByJWT(token)
@@ -50,16 +50,16 @@ const AdminPanel = () => {
       />
       <div className="drawer-content">
         <Navbar />
-        <div className="p-3 h-11/12">
+        <div className="p-3 h-10/12">
           {status >= 400 ? <Error status={status} /> : <Router />}
         </div>
       </div>
       <div className="drawer-side z-80">
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         <aside className="bg-base-200 text-base-content min-h-full w-64 xl:w-80">
-          <nav className="navbar shadow-sm flex justify-center sticky top-0 bg-lime-200 h-16">
+          <nav className="navbar shadow-sm flex justify-center sticky top-0 bg-linear-to-r from-primary to-accent h-16 z-40 opacity-90">
             <NavLink onClick={handleClick} to='/'>
-              <h2 className="text-center text-2xl font-medium text-violet-800">
+              <h2 className="text-center text-2xl font-bold text-white drop-shadow-md">
                 Admin panel
               </h2>
             </NavLink>

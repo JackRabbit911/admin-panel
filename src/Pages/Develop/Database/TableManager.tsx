@@ -1,5 +1,4 @@
 import { useForm, Controller } from 'react-hook-form';
-import { Link } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useGetQuery } from 'shared/api';
@@ -51,11 +50,6 @@ const TableManager = () => {
         <h2 className="text-2xl font-semibold my-4">
           {__('Managing database tables')}
         </h2>
-        <button className="btn btn-success btn-outline">
-          <Link to='restore'>
-            {__('Restore')}
-          </Link>
-        </button>
       </div>
       <div className="flex justify-between items-center pb-2 border-b border-base-200">
         <span className="text-sm text-base-content/70">

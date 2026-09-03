@@ -5,8 +5,9 @@ import Tests from "Pages/Tests"
 import Users from "Pages/Users"
 import UserCmp from "Pages/User"
 import Error from "Reused/Error"
-import RestoreDB from "Pages/Tests/RestoreDB"
-import TableManager from "Pages/Tests/TableManager"
+import Develop from "Pages/Develop"
+import RestoreDB from "Pages/Develop/Database/RestoreDB"
+import TableManager from "Pages/Develop/Database/TableManager"
 
 const Router = () => {
   return (
@@ -15,9 +16,12 @@ const Router = () => {
       <Route path='pages' element={<Pages />} />
       <Route path='users' element={<Users />} />
       <Route path='user/:id' element={<UserCmp />} />
-      <Route path='tests' element={<Tests />}>
-        <Route index element={<TableManager />} />
-        <Route path='restore' element={<RestoreDB />} />
+      <Route path='tests' element={<Tests />} />
+      <Route path='develop' element={<Develop />}>
+        <Route path='database'>
+          <Route index element={<TableManager />} />
+          <Route path='import' element={<RestoreDB />} />
+        </Route>
       </Route>
       <Route path='deploy' element={'Deploy'} />
       <Route path='seo' element={'SEO'} />
