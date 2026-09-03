@@ -1,12 +1,12 @@
 import { Outlet } from "react-router"
 
-const Tests = () => {
+const Database = () => {
   return (
     <>
-      <h1 className="text-2xl">Tests</h1>
+      <h1 className="text-2xl">Database</h1>
       <Outlet />
     </>
   )
 }
 
-export default Tests
+export default Database
