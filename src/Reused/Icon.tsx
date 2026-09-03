@@ -9,6 +9,10 @@ import {
   UserStar,
   DollarSign,
   Trophy,
+  Database,
+  CalendarClock,
+  SquareStack,
+  Broom,
   type LucideProps
 } from 'lucide-react';
 
@@ -22,7 +26,11 @@ const iconMap = {
   languages: Languages,
   user_star: UserStar,
   dollar_sign: DollarSign,
-  trophy: Trophy
+  trophy: Trophy,
+  database: Database,
+  calendar_clock: CalendarClock,
+  square_stack: SquareStack,
+  broom: Broom,
 } as const;
 export type IconName = keyof typeof iconMap;
 
