@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { ActionType } from 'Pages/Tests/utils';
+import type { ActionType } from 'Pages/Develop/Database/utils';
 import type { User } from 'Pages/Users/types';
 
 export type ModalType = 'ALERT' | 'BITMASK' | 'CONFIRM' | 'BACKUP'

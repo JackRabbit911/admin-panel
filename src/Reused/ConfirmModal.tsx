@@ -1,6 +1,6 @@
 import { usePostMutation } from "shared/api"
 import { useTranslate } from "shared/i18n/hooks"
-import { actionResolve } from "Pages/Tests/utils"
+import { actionResolve } from "Pages/Develop/Database/utils"
 import { openModalFn } from "./ModalContainer/utils"
 import type { ModalPropsMap } from "shared/store/modalSlice"
 

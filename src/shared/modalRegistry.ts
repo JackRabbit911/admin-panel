@@ -3,7 +3,7 @@ import React from 'react';
 import AlertModal from 'Reused/AlertModal';
 import BitMask from 'Pages/User/Form/BitMask';
 import ConfirmModal from 'Reused/ConfirmModal';
-import BackupName from 'Pages/Tests/Form/BacupName';
+import BackupName from 'Pages/Develop/Database/Form/BacupName';
 import type { ModalType } from './store/modalSlice'
 
 interface ModalConfig {
