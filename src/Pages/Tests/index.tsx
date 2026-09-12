@@ -40,11 +40,12 @@ const Tests = () => {
   const clearAll = tables.filter(item => !set2.has(item.toLowerCase()))
 
   const onDump = () => () => openModalFn('BACKUP', { tables })
-  const onTruncate = (tables: string[] | undefined): React.MouseEventHandler<HTMLButtonElement> => {
+  const onTruncate = (tables: string[]): React.MouseEventHandler<HTMLButtonElement> => {
     return () => {
       openModalFn('CONFIRM', {
         payload: { tables },
         actionType: 'truncate',
+        message: __('The following tables will be cleared: ') + tables.join(', '),
       })
     }
   }
