@@ -13,6 +13,7 @@ export const getTruncateUrl = '/dev/truncate'
 export const getDropTablesUrl = '/dev/drop'
 export const getDumpFilesUrl = '/dev/dumps'
 export const sendDumpFileUrl = '/dev/import'
+export const getMaintenanceUri = '/dev/maintenance'
 
 //admin permissions
 export const P = {
