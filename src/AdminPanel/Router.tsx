@@ -8,6 +8,7 @@ import Error from "Reused/Error"
 import Develop from "Pages/Develop"
 import RestoreDB from "Pages/Develop/Database/RestoreDB"
 import TableManager from "Pages/Develop/Database/TableManager"
+import Others from "Pages/Others"
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
         <Route path='works' element={'Works'} />
         <Route path='authors' element={'Authors'} />
       </Route>
+      <Route path='others' element={<Others />} />
       <Route path='*' element={<Error status={404} />} />
     </Routes>
   )
