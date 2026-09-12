@@ -13,6 +13,7 @@ import {
   CalendarClock,
   SquareStack,
   Broom,
+  BugOff,
   type LucideProps
 } from 'lucide-react';
 
@@ -31,6 +32,7 @@ const iconMap = {
   calendar_clock: CalendarClock,
   square_stack: SquareStack,
   broom: Broom,
+  bug_off: BugOff,
 } as const;
 export type IconName = keyof typeof iconMap;
 
