@@ -9,6 +9,7 @@ import Develop from "Pages/Develop"
 import RestoreDB from "Pages/Develop/Database/RestoreDB"
 import TableManager from "Pages/Develop/Database/TableManager"
 import Others from "Pages/Others"
+import Clean from "Pages/Develop/Clean"
 
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
           <Route index element={<TableManager />} />
           <Route path='import' element={<RestoreDB />} />
         </Route>
+        <Route path='clean' element={<Clean />} />
       </Route>
       <Route path='deploy' element={'Deploy'} />
       <Route path='seo' element={'SEO'} />
