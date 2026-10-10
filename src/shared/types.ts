@@ -8,3 +8,5 @@ export type ApiResponse<T, E = ServerError[]> = {
   error?: E;
   result: T;
 };
+
+export type MaintenanceState = { off: boolean };
