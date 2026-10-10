@@ -1,28 +1,29 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { myBaseQuery } from './baseQuery';
+import { invalidatesTagsFn, providesTagsFn } from './tagHelpers';
+import type { ApiArg } from './tags';
+
 
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: myBaseQuery(),
+    tagTypes: ['maintenance'],
     endpoints: (builder) => ({
-        post: builder.mutation({
-            query: (arg) => ({
-                url: arg.url,
-                method: arg.method || 'POST',
-                body: arg.body,
-            }),
+        post: builder.mutation<any, ApiArg>({
+            query: (arg) => {
+                if (typeof arg === 'string') return { url: arg, method: 'POST' };
+                return { url: arg.url, method: arg.method || 'POST', body: arg.body };
+            },
+            invalidatesTags: invalidatesTagsFn(),
         }),
-        delete: builder.mutation({
-            query: (arg) => ({
-                url: arg.url,
-                method: 'DELETE',
-                body: arg.body,
-            }),
+        get: builder.query<any, ApiArg>({
+            query: (arg) => {
+                if (typeof arg === 'string') return { url: arg };
+                return { url: arg.url };
+            },
+            providesTags: providesTagsFn(),
         }),
-        get: builder.query({
-            query: (arg) => arg,
-        }),
-        filterSearch: builder.query({
+        filterSearch: builder.query<any, { url: string; page?: number; limit?: number; search?: string; filter?: string }>({
             query: ({ url, page, limit, search, filter }) => ({
                 url,
                 params: {
@@ -39,7 +40,6 @@ export const api = createApi({
 
 export const {
     usePostMutation,
-    useDeleteMutation,
     useGetQuery,
     useLazyGetQuery,
     useFilterSearchQuery,
