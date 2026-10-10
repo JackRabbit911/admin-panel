@@ -1,33 +1,26 @@
-import { useEffect, useState } from "react";
-import { useGetQuery, usePostMutation } from "shared/api";
+import { useState } from "react";
 import { getMaintenanceUri } from "shared/constants";
+import { useGetQuery, usePostMutation } from "shared/api";
+import type { ApiResponse, MaintenanceState } from "shared/types";
 
 const Maintenance = () => {
-  const { data } = useGetQuery({ url: getMaintenanceUri })
+  const { data } = useGetQuery(getMaintenanceUri)
+  const isOff = (data as ApiResponse<MaintenanceState>)?.result?.off
   const [save] = usePostMutation()
   const [value, setValue] = useState<number>(2)
-  const [off, setOff] = useState(false)
-  const isMaintenance = data?.result?.off
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number(e.target.value));
   }
 
   const handleSubmit = async (wait: number) => {
-    const data = await save({
+    await save({
         url: getMaintenanceUri,
         body: { wait }
       }).unwrap()
-
-    const isOff = data?.result?.off
-    setOff(isOff)
   }
 
-  useEffect(() => {
-    setOff(isMaintenance)
-  }, [data])
-
-  if (off) {
+  if (isOff) {
     return (
       <button
         className="btn btn-primary"
