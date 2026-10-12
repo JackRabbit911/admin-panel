@@ -1,14 +1,16 @@
 import { useParams } from "react-router"
-import { useGetQuery } from "shared/api"
+
+import Books from "./List/Books"
+import Collapse from "./Collapse"
+import Authors from "./List/Authors"
+import UserLayOut from "./UserLayOut"
+import UserControls from "./UserControls"
 import { host } from "shared/api/baseQuery"
 import { getUsersUrl } from "shared/constants"
 import { useTranslate } from "shared/i18n/hooks"
-import Collapse from "./Collapse"
-import Authors from "./List/Authors"
-import Books from "./List/Books"
+import { createGetHook } from "shared/hooks/createHooks"
+
 import type { User } from "Pages/Users/types"
-import UserLayOut from "./UserLayOut"
-import UserControls from "./UserControls"
 
 const dateLoc = (date: string | undefined) => {
   if (!date) {
@@ -21,8 +23,8 @@ const dateLoc = (date: string | undefined) => {
 
 const UserCmp = () => {
   const { id } = useParams();
-  const { data } = useGetQuery({ url: [getUsersUrl, id].join('/') })
-  const user: User = data?.result
+  const useGetUserQuery = createGetHook<User>([getUsersUrl, id].join('/'))
+  const { data: user } = useGetUserQuery();
   const __ = useTranslate();
 
   return (

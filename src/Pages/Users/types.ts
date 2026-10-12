@@ -38,3 +38,16 @@ export type User = {
     comments?: number;
     rating?: number;
 }
+
+export type UserShort = {
+    id: number;
+    name: string;
+    role: number | null;
+    avatarUrl: string | null;
+}
+
+export type FilterSearch = {
+    total: number;
+    selected: number;
+    list: UserShort[];
+}

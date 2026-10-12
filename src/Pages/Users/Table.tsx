@@ -1,10 +1,10 @@
 import { useTranslate } from "shared/i18n/hooks"
-import type { User } from "./types"
 import TableRow from "./TableRow";
+import type { UserShort } from "./types"
 
 
 type Props = {
-  list: User[];
+  list: UserShort[];
   isFetching: boolean;
 }
 

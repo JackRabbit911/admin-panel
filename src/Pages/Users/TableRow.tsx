@@ -1,16 +1,17 @@
-import { host } from "shared/api/baseQuery";
-import type { User } from "./types"
-import { AVATAR_COLORS, getInitials, hashCode } from "./utils";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"
+import { host } from "shared/api/baseQuery"
+import { AVATAR_COLORS, getInitials, hashCode } from "./utils"
+
+import type { UserShort } from "./types"
 
 type Props = {
-  user: User;
+  user: UserShort;
   isFetching: boolean;
 }
 
 const TableRow = ({ user, isFetching }: Props) => {
   const navigate = useNavigate()
-  const colorClass = AVATAR_COLORS[hashCode(user.name) % AVATAR_COLORS.length];
+  const colorClass = AVATAR_COLORS[hashCode(user.name) % AVATAR_COLORS.length]
 
   return (
     <tr

@@ -4,7 +4,8 @@ import { useTranslate } from 'shared/i18n/hooks'
 import Pagination from 'Reused/Paginator/Pagination'
 import SearchFilterForm from 'Reused/SearchFilterForm'
 import { useSearchFilterPagination } from '../../Reused/Paginator/hooks'
-import type { User } from './types'
+
+import type { UserShort } from './types'
 
 const Users = () => {
   const {
@@ -19,7 +20,7 @@ const Users = () => {
     handleReset,
   } = useSearchFilterPagination(getUsersUrl)
 
-  const list: User[] = result?.list || []
+  const list: UserShort[] = result?.list || []
   const total: number = result?.total || 0
   const selected: number = result?.selected || 0
   const __ = useTranslate()

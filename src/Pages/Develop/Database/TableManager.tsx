@@ -1,17 +1,23 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useGetQuery } from 'shared/api';
 import { TableActions } from './TableActions';
 import CheckBoxLeft from 'Reused/CheckBoxLeft';
 import { getTablesUrl } from 'shared/constants';
 import { useTranslate } from 'shared/i18n/hooks';
+import { createGetHook } from 'shared/hooks/createHooks';
 import { tableActionSchema, type TableActionFormValues } from './schema';
 
+type Tables = {
+  tables: string[];
+  exclude: string[];
+}
+
+const useGetTablesQuery = createGetHook<Tables>(getTablesUrl)
+
 const TableManager = () => {
-  const { data } = useGetQuery({ url: getTablesUrl })
-  const tables: string[] = data?.result ? data.result.tables : []
-  const exclude: string[] = data?.result ? data.result.exclude : []
+  const { data } = useGetTablesQuery()
+  const { tables = [], exclude = []} = data ?? {}
 
   const set2 = new Set(exclude.map(item => item.toLowerCase()))
   const selected = tables.filter(item => !set2.has(item.toLowerCase()))

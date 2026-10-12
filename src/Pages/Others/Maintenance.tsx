@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { getMaintenanceUri } from "shared/constants";
 import { useGetQuery, usePostMutation } from "shared/api";
-import type { ApiResponse, MaintenanceState } from "shared/types";
+import type { MaintenanceState } from "shared/types";
 
 const Maintenance = () => {
   const { data } = useGetQuery(getMaintenanceUri)
-  const isOff = (data as ApiResponse<MaintenanceState>)?.result?.off
+  const isOff = (data as MaintenanceState | undefined)?.off
   const [save] = usePostMutation()
   const [value, setValue] = useState<number>(2)
 
