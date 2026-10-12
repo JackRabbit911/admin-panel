@@ -1,10 +1,10 @@
-import { useGetQuery } from "shared/api"
 import { getDashboardUrl } from "shared/constants"
+import { createGetHook } from "shared/hooks/createHooks";
 
 const Home = () => {
-  const { data } = useGetQuery({ url: getDashboardUrl })
-  const dashboard = data?.result || null
-
+  const useGeDashboardQuery = createGetHook<string>(getDashboardUrl)
+  const { data: dashboard } = useGeDashboardQuery()
+  
   return (
     <>
       <div className="break-all">
