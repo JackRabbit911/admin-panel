@@ -1,9 +1,10 @@
-import { useGetQuery } from "shared/api"
 import { getPagesUrl } from "shared/constants"
+import { createGetHook } from "shared/hooks/createHooks"
+
+const useGetPagesQuery = createGetHook<string>(getPagesUrl)
 
 const Pages = () => {
-  const { data } = useGetQuery({ url: getPagesUrl })
-  const title: string = data?.result || null
+  const { data: title } = useGetPagesQuery()
 
   return (
     <>
