@@ -1,9 +1,8 @@
-import { getMaintenanceUri } from '../constants';
+import { getMaintenanceUri, getUsersUrl } from '../constants';
 
-// Маппинг URL-паттернов к тегам для автоинвалидации
 export const tagPatterns = {
     [getMaintenanceUri]: 'maintenance' as const,
-    // [getMessagesCountUri]: 'statuses',
+    [getUsersUrl]: 'users' as const,
 } as const;
 
 export type TagType = typeof tagPatterns[keyof typeof tagPatterns];
