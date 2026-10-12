@@ -3,9 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form"
 
 import TextInput from "Reused/TextInput"
+import { usePostMutation } from "shared/api"
 import { useTranslate } from "shared/i18n/hooks"
+import { createGetHook } from "shared/hooks/createHooks"
 import { openModalFn } from "Reused/ModalContainer/utils"
-import { useGetQuery, usePostMutation } from "shared/api"
 import { dumpDbUrl, getDumpFileName } from "shared/constants"
 import type { ModalPropsMap } from "shared/store/modalSlice"
 
@@ -23,8 +24,9 @@ type Props = {
 }
 
 const BackupName = ({ props, onClose }: Props) => {
-  const { data, isLoading, isFetching, refetch } = useGetQuery({ url: getDumpFileName })
-  const filename = data ? data?.result : null
+  const useGetDumpQuery = createGetHook<string>(getDumpFileName)
+  const { data: filename, isLoading, isFetching, refetch } = useGetDumpQuery()
+
   const [send] = usePostMutation()
 
   const methods = useForm<FileName>({
@@ -47,14 +49,10 @@ const BackupName = ({ props, onClose }: Props) => {
         },
       }
 
-      const response = await send(arg).unwrap()
+      await send(arg).unwrap()
 
-      if (response.success) {
-        onClose();
-        openModalFn('ALERT', { message: __('Dump was created successfully') })
-      } else {
-        console.log(response)
-      }
+      onClose();
+      openModalFn('ALERT', { message: __('Dump was created successfully') })
     } catch (err) {
       console.log(err)
       // const isHandled = handleServerError(err, methods.setError);
