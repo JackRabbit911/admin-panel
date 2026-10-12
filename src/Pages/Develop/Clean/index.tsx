@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
+import Btn from "./Btn"
+import { usePostMutation } from "shared/api"
 import { getClearUrl } from "shared/constants"
 import { useTranslate } from "shared/i18n/hooks"
-import { useGetQuery, usePostMutation } from "shared/api"
-import Btn from "./Btn"
+import { createGetHook } from "shared/hooks/createHooks"
 
 const defaults = {
   logs: 0,
@@ -10,8 +11,10 @@ const defaults = {
   tokens: 0,
 }
 
+const useGetCleanQuery = createGetHook<typeof defaults>(getClearUrl)
+
 const Clean = () => {
-  const { data, isLoading, refetch } = useGetQuery({ url: getClearUrl })
+  const { data, isLoading, refetch } = useGetCleanQuery()
   const [counts, setCounts] = useState(defaults)
   const [clear] = usePostMutation()
   const __ = useTranslate()
@@ -29,8 +32,8 @@ const Clean = () => {
   const sum = (Object.values(counts) as number[]).reduce((acc, val) => acc + val, 0);
 
   useEffect(() => {
-    if (data?.result) {
-      setCounts(data.result)
+    if (data) {
+      setCounts(data)
     }
   }, [data])
 
