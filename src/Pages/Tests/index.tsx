@@ -1,9 +1,8 @@
 import { Link } from "react-router"
 import type { MouseEventHandler } from "react"
-
-import { useGetQuery } from "shared/api"
 import { getTablesUrl } from "shared/constants"
 import { useTranslate } from "shared/i18n/hooks"
+import { createGetHook } from "shared/hooks/createHooks"
 import { openModalFn } from "Reused/ModalContainer/utils"
 
 const clearBurime = [
@@ -30,12 +29,17 @@ const Btn = ({ label, func, color = '' }: BtnProps) => {
   )
 }
 
+type Tables = {
+  tables: string[];
+  exclude: string[];
+}
+
 const Tests = () => {
-  const { data } = useGetQuery({ url: getTablesUrl })
+  const useGetTablesQuery = createGetHook<Tables>(getTablesUrl)
+  const { data } = useGetTablesQuery()
+  const { tables = [], exclude = [] } = data ?? {}
   const __ = useTranslate()
 
-  const tables: string[] = data?.result ? data.result.tables : []
-  const exclude: string[] = data?.result ? data.result.exclude : []
   const set2 = new Set(exclude.map(item => item.toLowerCase()))
   const clearAll = tables.filter(item => !set2.has(item.toLowerCase()))
 
