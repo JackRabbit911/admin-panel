@@ -1,16 +1,17 @@
 import Item from "./Item";
 import Submenu from "./Submenu";
-import { useGetQuery } from "shared/api";
 import { getSidebarUrl } from "shared/constants";
+import { createGetHook } from "shared/hooks/createHooks";
 import type { IMenuItem } from "./types";
+
+const useGeMenuQuery = createGetHook<IMenuItem[]>(getSidebarUrl)
 
 type Props = {
   onClose: () => void;
 }
 
 const Sidebar = ({ onClose }: Props) => {
-  const { data } = useGetQuery({ url: getSidebarUrl })
-  const menu: IMenuItem[] = data?.result ? data.result : null;
+  const { data: menu } = useGeMenuQuery()
 
   return menu && (
     <ul className="menu bg-base-200 text-base-content min-h-full w-full p-2">
