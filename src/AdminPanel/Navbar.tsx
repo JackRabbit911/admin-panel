@@ -7,7 +7,7 @@ import { useAppDispatch } from "shared/store/hooks"
 import { resetToken } from "shared/store/tokenSlice"
 import { getMaintenanceUri, logoutUrl } from "shared/constants"
 import { useGetQuery, useLazyGetQuery, usePostMutation } from "shared/api"
-import type { ApiResponse, MaintenanceState } from "shared/types"
+import type { MaintenanceState } from "shared/types"
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.user)
@@ -15,7 +15,7 @@ const Navbar = () => {
   const [exit] = usePostMutation()
   const [trigger] = useLazyGetQuery()
   const { data } = useGetQuery(getMaintenanceUri)
-  const isMaintenance = (data as ApiResponse<MaintenanceState>)?.result?.off
+  const isMaintenance = (data as MaintenanceState | undefined)?.off
   const __ = useTranslate()
 
   const onSend = () => {
