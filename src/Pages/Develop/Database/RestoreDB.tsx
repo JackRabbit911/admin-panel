@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { useTranslate } from "shared/i18n/hooks";
-import { useGetQuery, usePostMutation } from "shared/api";
+// import { usePostMutation } from "shared/api";
 import { getDumpFilesUrl, sendDumpFileUrl } from "shared/constants";
 import { openModalFn } from "Reused/ModalContainer/utils";
+import { createGetHook, createMutationHook } from "shared/hooks/createHooks";
 
 type File = {
   filename: string;
@@ -19,10 +20,12 @@ const userSelectionSchema = z.object({
 
 type FormData = z.infer<typeof userSelectionSchema>;
 
+const useRestoreMutation = createMutationHook<string>(sendDumpFileUrl);
+
 const RestoreDB = () => {
-  const { data, refetch } = useGetQuery(getDumpFilesUrl)
-  const files = data?.result ? data?.result : []
-  const [send] = usePostMutation()
+  const useGetFilesQuery = createGetHook<File[]>(getDumpFilesUrl)
+  const { data: files, refetch } = useGetFilesQuery();
+  const [send] = useRestoreMutation()
 
   const {
     register,
@@ -43,10 +46,10 @@ const RestoreDB = () => {
     const data = await send({
       url: sendDumpFileUrl,
       body: body
-    }).unwrap()
+    })//.unwrap()
 
-    if (data.success) {
-      openModalFn('ALERT', { message: data?.result })
+    if (data) {
+      openModalFn('ALERT', { message: data })
     }
   }
 
@@ -80,7 +83,7 @@ const RestoreDB = () => {
               </tr>
             </thead>
             <tbody>
-              {files.map((file: File) => {
+              {files && files.map((file: File) => {
                 const isSelected = currentSelection === file.filename;
 
                 return (
@@ -123,7 +126,7 @@ const RestoreDB = () => {
             Обновить данные
           </button>
           <div>
-            {files.length === 0 && <span className="text-warning">
+            {(files !== undefined && files.length === 0) && <span className="text-warning">
               {__('No backups')}
             </span>}
           </div>
